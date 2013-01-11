@@ -3,17 +3,17 @@
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- 
- 
- 
+
+
+
 /* PUT IN YOUR SLIDER ID AND SIZE TO MAKE LOAD BEAUTIFULLY
    ================================================== */
-#caseStudies { 
-	width: 1000px;
-	height: 210px;
-	background: #fff url('orbit/loading.gif') no-repeat center center;
-	overflow: hidden; }
-#caseStudies>img,  
+#caseStudies {
+    width: 1000px;
+    height: 210px;
+    background: #fff url('orbit/loading.gif') no-repeat center center;
+    overflow: hidden; }
+#caseStudies>img,
 #caseStudies>div,
 #caseStudies>a { display: none; }
 
@@ -33,7 +33,7 @@ div.orbit {
     height: 1px;
     position: relative;
     overflow: hidden }
-    
+
 div.orbit.with-bullets {
     margin-bottom: 40px;
 }
@@ -49,7 +49,7 @@ div.orbit>a {
     position: absolute;
     top: 0;
     left: 0;
-    line-height: 0; 
+    line-height: 0;
     display: none; }
 
 .orbit>div {
@@ -135,8 +135,8 @@ span.pause.active {
     background: rgba(0,0,0,.6);
     z-index: 1000;
     color: #fff;
-	text-align: center;
-	padding: 7px 0;
+    text-align: center;
+    padding: 7px 0;
     font-size: 13px;
     position: absolute;
     right: 0;
@@ -177,7 +177,7 @@ div.slider-nav span.left {
     list-style: none;
     bottom: -50px;
     left: 50%;
-	  margin-left: -50px;
+      margin-left: -50px;
     padding: 0; }
 
 .orbit-bullets li {
@@ -194,7 +194,7 @@ div.slider-nav span.left {
 .orbit-bullets li.active {
     color: #222;
     background-position: -8px 0; }
-    
+
 .orbit-bullets li.has-thumb {
     background: none;
     width: 100px;
@@ -203,7 +203,7 @@ div.slider-nav span.left {
 .orbit-bullets li.active.has-thumb {
     background-position: 0 0;
     border-top: 2px solid #000; }
-    
+
 /* FLUID LAYOUT
    ================================================== */
 .orbit-wrapper.fluid .orbit .fluid-placeholder {
@@ -212,7 +212,7 @@ div.slider-nav span.left {
     display: block;
     width: 100%; }
 
-.orbit-wrapper.fluid .orbit, .orbit-wrapper.fluid { 
+.orbit-wrapper.fluid .orbit, .orbit-wrapper.fluid {
     width: 100% !important; }
 
 .orbit-wrapper.fluid .orbit-bullets {
