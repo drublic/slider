@@ -204,11 +204,7 @@
       //Set initial front photo z-index and fades it in
       var self = this;
       this.$slides.first()
-        .css({"z-index" : 3})
-        .fadeIn(function() {
-          //brings in all other slides IF css declares a display: none
-          self.$slides.css({"display":"block"});
-      });
+        .addClass('active');
     },
 
     startClock: function () {
@@ -407,7 +403,7 @@
     resetAndUnlock: function () {
       this.$slides
         .eq(this.prevActiveSlide)
-        .css({"z-index" : 1});
+        .removeClass('active');
       this.unlock();
       this.options.afterSlideChange.call(this, this.$slides.eq(this.prevActiveSlide), this.$slides.eq(this.activeSlide));
     },
@@ -450,13 +446,14 @@
         //set previous slide z-index to one below what new activeSlide will be
         this.$slides
           .eq(this.prevActiveSlide)
-          .css({"z-index" : 2});
+          .removeClass('active');
 
         //fade
         if (this.options.animation == "fade") {
           this.$slides
             .eq(this.activeSlide)
-            .css({"opacity" : 0, "z-index" : 3})
+            .css({"opacity" : 0})
+            .addClass('active')
             .animate({"opacity" : 1}, this.options.animationSpeed, this.resetAndUnlock);
         }
 
@@ -465,13 +462,15 @@
           if (slideDirection == "next") {
             this.$slides
               .eq(this.activeSlide)
-              .css({"left": this.orbitWidth, "z-index" : 3})
+              .addClass('active')
+              .css({"left": this.orbitWidth})
               .animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
           }
           if (slideDirection == "prev") {
             this.$slides
               .eq(this.activeSlide)
-              .css({"left": -this.orbitWidth, "z-index" : 3})
+              .addClass('active')
+              .css({"left": -this.orbitWidth})
               .animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
           }
         }
@@ -481,13 +480,15 @@
           if (slideDirection == "prev") {
             this.$slides
               .eq(this.activeSlide)
-              .css({"top": this.orbitHeight, "z-index" : 3})
+              .addClass('active')
+              .css({"top": this.orbitHeight})
               .animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
           }
           if (slideDirection == "next") {
             this.$slides
               .eq(this.activeSlide)
-              .css({"top": -this.orbitHeight, "z-index" : 3})
+              .addClass('active')
+              .css({"top": -this.orbitHeight})
               .animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
           }
         }
@@ -497,7 +498,8 @@
           if (slideDirection == "next") {
             this.$slides
               .eq(this.activeSlide)
-              .css({"left": this.orbitWidth, "z-index" : 3})
+              .addClass('active')
+              .css({"left": this.orbitWidth})
               .animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
             this.$slides
               .eq(this.prevActiveSlide)
@@ -506,7 +508,8 @@
           if (slideDirection == "prev") {
             this.$slides
               .eq(this.activeSlide)
-              .css({"left": -this.orbitWidth, "z-index" : 3})
+              .addClass('active')
+              .css({"left": -this.orbitWidth})
               .animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
             this.$slides
               .eq(this.prevActiveSlide)
@@ -519,7 +522,8 @@
           if (slideDirection == "next") {
             this.$slides
               .eq(this.activeSlide)
-              .css({top: -this.orbitHeight, "z-index" : 3})
+              .addClass('active')
+              .css({top: -this.orbitHeight})
               .animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
             this.$slides
               .eq(this.prevActiveSlide)
@@ -528,7 +532,8 @@
           if (slideDirection == "prev") {
             this.$slides
               .eq(this.activeSlide)
-              .css({top: this.orbitHeight, "z-index" : 3})
+              .addClass('active')
+              .css({top: this.orbitHeight})
               .animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
             this.$slides
               .eq(this.prevActiveSlide)

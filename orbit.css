@@ -17,6 +17,10 @@
 #caseStudies>div,
 #caseStudies>a { display: none; }
 
+#caseStudies > .active {
+    display: block;
+}
+
 
 
 
