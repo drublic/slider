@@ -604,7 +604,7 @@
    * Touch events
    */
 
-  if (Modernizr && !Modernizr.touch) {
+  if (window.Modernizr && !window.Modernizr.touch) {
     return;
   }
 
