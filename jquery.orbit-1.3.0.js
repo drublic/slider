@@ -599,4 +599,83 @@
      });
   }
 
+
+  /**
+   * Touch events
+   */
+
+  if (Modernizr && !Modernizr.touch) {
+    return;
+  }
+
+  var startX, startY, cwidth, dx,
+      scrolling = false;
+
+  var $slider = $('.orbit');
+  var navigation = $('.slider-nav');
+
+  var methods = {
+    getCurrentSlide: function () {
+      return $('.orbit-bullets > li').index('.active');
+    },
+
+    resetSlider: function () {
+      $slider[0].removeEventListener('touchmove', methods.onTouchMove, false);
+      $slider[0].removeEventListener('touchend', methods.onTouchEnd, false);
+
+      startX = null;
+      startY = null;
+      dx = null;
+    },
+
+    onTouchStart: function (e) {
+      if (e.touches.length === 1) {
+        $slider[0].addEventListener('touchmove', methods.onTouchMove, false);
+        $slider[0].addEventListener('touchend', methods.onTouchEnd, false);
+
+        startX = e.touches[0].pageX;
+        startY = e.touches[0].pageY;
+        cwidth = $slider.height();
+      }
+    },
+
+    onTouchMove: function (e) {
+      dx = startX - e.touches[0].pageX;
+      scrolling = Math.abs(dx) < Math.abs(startY - e.touches[0].pageY);
+
+      if (!scrolling) {
+        e.preventDefault();
+
+        dx = (function () {
+          return dx / cwidth;
+        }());
+      } else {
+        methods.resetSlider();
+      }
+    },
+
+    onTouchEnd: function () {
+      if (dx !== null) {
+        var target;
+
+        if (dx > 0) {
+          target = navigation.children('.right');
+        } else {
+          target = navigation.children('.left');
+        }
+
+        if (Math.abs(dx) > 0.2 || Math.abs(dx) > cwidth / 2) {
+          target.trigger('click');
+        }
+      }
+
+      // finish the touch by undoing the touch session
+      methods.resetSlider();
+    }
+  };
+
+  if ($slider.length > 0) {
+    $slider[0].addEventListener('touchstart', methods.onTouchStart, false);
+  }
+
 }(jQuery));
