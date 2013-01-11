@@ -41,7 +41,7 @@
     wrapperHTML: '<div class="orbit-wrapper" />',
     timerHTML: '<div class="timer"><span class="mask"><span class="rotator"></span></span><span class="pause"></span></div>',
     captionHTML: '<div class="orbit-caption"></div>',
-    directionalNavHTML: '<div class="slider-nav"><span class="right">Right</span><span class="left">Left</span></div>',
+    directionalNavHTML: '<div class="slider-nav"><a href="#!" class="right">Right</a><a href="#!" class="left">Left</a></div>',
     bulletHTML: '<ul class="orbit-bullets"></ul>',
 
     init: function (element, options) {
