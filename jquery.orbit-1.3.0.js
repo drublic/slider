@@ -168,7 +168,7 @@
       if (this.options.fluid) {
 
         if (typeof this.options.fluid === "string") {
-          $fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />')
+          $fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />');
         }
 
         self.$element.prepend($fluidPlaceholder);
@@ -207,7 +207,7 @@
         .css({"z-index" : 3})
         .fadeIn(function() {
           //brings in all other slides IF css declares a display: none
-          self.$slides.css({"display":"block"})
+          self.$slides.css({"display":"block"});
       });
     },
 
@@ -224,13 +224,13 @@
         }, this.options.advanceSpeed);
       } else {
         this.timerRunning = true;
-        this.$pause.removeClass('active')
+        this.$pause.removeClass('active');
         this.clock = setInterval(this.rotateTimer, this.options.advanceSpeed / 180);
       }
     },
 
     rotateTimer: function () {
-      var degreeCSS = "rotate(" + this.degrees + "deg)"
+      var degreeCSS = "rotate(" + this.degrees + "deg)";
       this.degrees += 2;
       this.$rotator.css({
         "-webkit-transform": degreeCSS,
@@ -286,7 +286,7 @@
         if(!self.timerRunning){
           self.startClock();
         }
-      }, this.options.startClockOnMouseOutAfter)
+      }, this.options.startClockOnMouseOutAfter);
     },
 
     clearClockMouseLeaveTimer: function () {
@@ -384,14 +384,14 @@
         if (thumbName) {
           $li
             .addClass('has-thumb')
-            .css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});;
+            .css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});
         }
       }
       this.$bullets.append($li);
       $li.data('index', index);
       $li.click(function () {
         self.stopClock();
-        self.$element.trigger('orbit.goto', [$li.data('index')])
+        self.$element.trigger('orbit.goto', [$li.data('index')]);
       });
     },
 
@@ -431,7 +431,7 @@
               this.activeSlide = 0;
           }
         } else if (direction == "prev") {
-          this.activeSlide--
+          this.activeSlide--;
           if (this.activeSlide < 0) {
             this.activeSlide = this.numberSlides - 1;
           }
@@ -440,7 +440,7 @@
           if (this.prevActiveSlide < this.activeSlide) {
             slideDirection = "next";
           } else if (this.prevActiveSlide > this.activeSlide) {
-            slideDirection = "prev"
+            slideDirection = "prev";
           }
         }
 
