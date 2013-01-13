@@ -1,10 +1,9 @@
-/*
- * jQuery Orbit Plugin 1.3.0
- * www.ZURB.com/playground
- * Copyright 2010, ZURB
- * Free to use under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
-*/
+/**
+ * jQuery Content Slider Orbit
+ * Build upon ZURB's Slider, www.ZURB.com/playground
+ *
+ * @author Hans Christian Reinl - @drublic
+ */
 
 
 (function($) {
