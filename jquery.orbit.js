@@ -8,6 +8,8 @@
 
 (function($) {
 
+	'use strict';
+
 	var ORBIT = {
 
 		defaults: {
@@ -58,9 +60,18 @@
 			this.rotateTimer = $.proxy(this.rotateTimer, this);
 
 			this.options = $.extend({}, this.defaults, options);
-			if (this.options.timer === 'false') this.options.timer = false;
-			if (this.options.captions === 'false') this.options.captions = false;
-			if (this.options.directionalNav === 'false') this.options.directionalNav = false;
+
+			if (this.options.timer === 'false') {
+				this.options.timer = false;
+			}
+
+			if (this.options.captions === 'false') {
+				this.options.captions = false;
+			}
+
+			if (this.options.directionalNav === 'false') {
+				this.options.directionalNav = false;
+			}
 
 			this.$element = $(element);
 			this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
@@ -82,11 +93,11 @@
 				self.shift(index);
 			});
 
-			this.$element.bind('orbit.start', function (event, index) {
+			this.$element.bind('orbit.start', function () {
 				self.startClock();
 			});
 
-			this.$element.bind('orbit.stop', function (event, index) {
+			this.$element.bind('orbit.stop', function () {
 				self.stopClock();
 			});
 
@@ -201,7 +212,6 @@
 
 		setupFirstSlide: function () {
 			//Set initial front photo z-index and fades it in
-			var self = this;
 			this.$slides.first()
 				.addClass('active');
 		},
@@ -365,7 +375,10 @@
 			this.$wrapper.append(this.$bullets);
 			this.$slides.each(this.addBullet);
 			this.$element.addClass('with-bullets');
-			if (this.options.centerBullets) this.$bullets.css('margin-left', -this.$bullets.width() / 2);
+
+			if (this.options.centerBullets) {
+				this.$bullets.css('margin-left', -this.$bullets.width() / 2);
+			}
 		},
 
 		addBullet: function (index, slide) {
@@ -414,19 +427,24 @@
 			this.prevActiveSlide = this.activeSlide;
 
 			//exit function if bullet clicked is same as the current image
-			if (this.prevActiveSlide == slideDirection) { return false; }
+			if (this.prevActiveSlide === slideDirection) {
+				return false;
+			}
 
-			if (this.$slides.length == "1") { return false; }
+			if (this.$slides.length === "1") {
+				return false;
+			}
+
 			if (!this.locked) {
 				this.lock();
 				//deduce the proper activeImage
-				if (direction == "next") {
-					this.activeSlide++;
-					if (this.activeSlide == this.numberSlides) {
+				if (direction === "next") {
+					this.activeSlide += 1;
+					if (this.activeSlide === this.numberSlides) {
 							this.activeSlide = 0;
 					}
-				} else if (direction == "prev") {
-					this.activeSlide--;
+				} else if (direction === "prev") {
+					this.activeSlide -= 1;
 					if (this.activeSlide < 0) {
 						this.activeSlide = this.numberSlides - 1;
 					}
@@ -448,7 +466,7 @@
 					.removeClass('active');
 
 				//fade
-				if (this.options.animation == "fade") {
+				if (this.options.animation === "fade") {
 					this.$slides
 						.eq(this.activeSlide)
 						.css({"opacity" : 0})
@@ -457,15 +475,15 @@
 				}
 
 				//horizontal-slide
-				if (this.options.animation == "horizontal-slide") {
-					if (slideDirection == "next") {
+				if (this.options.animation === "horizontal-slide") {
+					if (slideDirection === "next") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
 							.css({"left": this.orbitWidth})
 							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
-					if (slideDirection == "prev") {
+					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
@@ -475,15 +493,15 @@
 				}
 
 				//vertical-slide
-				if (this.options.animation == "vertical-slide") {
-					if (slideDirection == "prev") {
+				if (this.options.animation === "vertical-slide") {
+					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
 							.css({"top": this.orbitHeight})
 							.animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
-					if (slideDirection == "next") {
+					if (slideDirection === "next") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
@@ -493,8 +511,8 @@
 				}
 
 				//horizontal-push
-				if (this.options.animation == "horizontal-push") {
-					if (slideDirection == "next") {
+				if (this.options.animation === "horizontal-push") {
+					if (slideDirection === "next") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
@@ -504,7 +522,7 @@
 							.eq(this.prevActiveSlide)
 							.animate({"left" : -this.orbitWidth}, this.options.animationSpeed);
 					}
-					if (slideDirection == "prev") {
+					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
@@ -517,8 +535,8 @@
 				}
 
 				//vertical-push
-				if (this.options.animation == "vertical-push") {
-					if (slideDirection == "next") {
+				if (this.options.animation === "vertical-push") {
+					if (slideDirection === "next") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
@@ -528,7 +546,7 @@
 							.eq(this.prevActiveSlide)
 							.animate({top : this.orbitHeight}, this.options.animationSpeed);
 					}
-					if (slideDirection == "prev") {
+					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
@@ -563,11 +581,13 @@
  */
 (function ($) {
 
+	'use strict';
+
 	var options = {};
 
 	$.event.special.imageready = {
 
-		setup: function (data, namespaces, eventHandle) {
+		setup: function (data) {
 			options = data || options;
 		},
 
@@ -589,7 +609,7 @@
 			}
 		},
 
-		teardown: function (namespaces) {
+		teardown: function () {
 			$(this).unbind('.imageready');
 		}
 	};
