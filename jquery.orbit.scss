@@ -23,7 +23,7 @@
 // CONTAINER
 .orbit-wrapper {
 	position: relative;
-	width: 1px;
+	width: 100% !important;
 	height: 1px;
 }
 
@@ -58,6 +58,14 @@
 	> div {
 		width: 100%;
 		height: 100%;
+	}
+
+
+	.fluid-placeholder {
+		visibility: hidden;
+		position: static;
+		display: block;
+		width: 100%;
 	}
 }
 
@@ -171,17 +179,18 @@
 	}
 }
 
-/* BULLET NAV
-	 ================================================== */
-
+// BULLET NAV
 .orbit-bullets {
-	position: absolute;
-	z-index: 1000;
 	list-style: none;
-	bottom: -50px;
+
+	position: absolute;
 	left: 50%;
+	bottom: -50px;
+	z-index: 1000;
+
 	margin-left: -50px;
 	padding: 0;
+
 	li {
 		float: left;
 		margin-left: 5px;
@@ -192,43 +201,21 @@
 		width: 13px;
 		height: 12px;
 		overflow: hidden;
+
 		&.active {
 			color: #222;
 			background-position: -8px 0;
 		}
+
 		&.has-thumb {
 			background: none;
 			width: 100px;
 			height: 75px;
 		}
+
 		&.active.has-thumb {
 			background-position: 0 0;
 			border-top: 2px solid #000;
 		}
-	}
-}
-
-/* FLUID LAYOUT
-	 ================================================== */
-
-.orbit-wrapper.fluid {
-	.orbit {
-		.fluid-placeholder {
-			visibility: hidden;
-			position: static;
-			display: block;
-			width: 100%;
-		}
-		width: 100% !important;
-	}
-	width: 100% !important;
-	.orbit-bullets {
-		position: absolute;
-		z-index: 1000;
-		list-style: none;
-		bottom: -50px;
-		left: 50%;
-		margin-left: -50px;
-		padding: 0;
 	}
 }
