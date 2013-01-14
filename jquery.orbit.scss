@@ -7,14 +7,12 @@
  */
 
 .slider {
-	overflow: hidden;
-
 	> img,
-	> div,
-	> a {
+	> a,
+	> div {
 		display: none;
 
-		&.active {
+		&:first-child {
 			display: block;
 		}
 	}
@@ -39,12 +37,19 @@
 	> img,
 	> a,
 	> div {
+		display: block;
+
 		position: absolute;
 		top: 0;
-		left: 0;
+		left: -100%;
+		z-index: 1;
 		max-width: 100%;
-	}
 
+		&.active {
+			z-index: 3;
+			left: 0;
+		}
+	}
 	> img {
 		height: auto;
 	}
@@ -172,12 +177,12 @@
 		cursor: pointer;
 
 		&.right {
-			background: url(img/right-arrow.png);
+			background-image: url(img/right-arrow.png);
 			right: 0;
 		}
 
 		&.left {
-			background: url(img/left-arrow.png);
+			background-image: url(img/left-arrow.png);
 			left: 0;
 		}
 
