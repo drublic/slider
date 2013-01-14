@@ -3,33 +3,30 @@
 		<meta charset="utf-8" />
 		<title>Orbit Demo</title>
 
-		<!-- Attach our CSS -->
+		<!-- Attach CSS -->
+		<link rel="stylesheet" href="normalize.css">
 		<link rel="stylesheet" href="../build/jquery.orbit-0.1.0.min.css">
-		<link rel="stylesheet" href="globals.css">
-		<link rel="stylesheet" href="grid.css">
-		<link rel="stylesheet" href="mobile.css">
-		<link rel="stylesheet" href="typography.css">
 		<link rel="stylesheet" href="demo-style.css">
 	</head>
 	<body>
 
 		<div class="container">
-			<div class="row">
-				<div class="ten columns">
-					<h4>Orbit Slider</h4>
-					<a href="#">View Docs + Playground for Orbit</a>
+			<h4>Orbit Slider</h4>
+			<a href="#">View Docs + Playground for Orbit</a>
 
 
-					<div id="responsive">
-						<div class="content" style="">
-							<h1>Orbit does content now.</h1>
-							<h3>Highlight me...I'm text.</h3>
-						</div>
-						<img src="images/overflow.jpg" />
-						<img src="images/captions.jpg" data-caption="#htmlCaption" />
-						<img src="images/features.jpg"  />
-					</div>
+			<div class="slider">
+				<div class="content" style="">
+					<h1>Orbit does content now.</h1>
+					<h3>Highlight me...I'm text.</h3>
 				</div>
+				<img src="images/overflow.jpg">
+				<img src="images/captions.jpg" data-caption="#slide-caption">
+				<img src="images/features.jpg">
+			</div>
+
+			<div id="slide-caption">
+				<h3>This is a caption</h3>
 			</div>
 		</div>
 
@@ -39,7 +36,7 @@
 
 		<!-- Run the plugin -->
 		<script>
-			$('#responsive').orbit({
+			$('.slider').orbit({
 				bullets: true,
 				fluid: true
 			});
