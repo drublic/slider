@@ -34,7 +34,7 @@ module.exports = function (grunt) {
 
 		uglify: {
 			deploy: {
-				src: 'jquery.orbit-<%= pkg.version %>.min.js',
+				src: 'jquery.orbit.js',
 				dest: 'build/jquery.orbit-<%= pkg.version %>.min.js'
 			}
 		},
@@ -51,7 +51,7 @@ module.exports = function (grunt) {
 					'Gruntfile.js',
 					'jquery.orbit.js'
 				],
-				tasks: 'jshint'
+				tasks: ['jshint', 'uglify']
 			}
 		}
 	});
