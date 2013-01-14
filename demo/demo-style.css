@@ -1,27 +1,24 @@
 
 
 html {
-	max-width: 960px;
+	max-width: 940px;
 	padding: 1em;
 	margin: 0 auto;
+	color: #222;
 }
 
 .content {
 	background: #eee;
+	text-align: center;
 }
 
-.content h1 {
-	font-size: 40px;
+h1 {
+	font-size: 3em;
 	text-transform: uppercase;
-	font-weight: bold;
-	text-align: center;
 	margin-top: 15%;
-	color: #222;
-	line-height: 50px;
+	line-height: 1.4em;
 }
 
-.content h3 {
-	text-align: center;
-	font-size: 22px;
-	color: #222;
+h3 {
+	font-size: 1.5em;
 }
