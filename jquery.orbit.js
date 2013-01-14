@@ -13,23 +13,23 @@
 	var ORBIT = {
 
 		defaults: {
-			animation: 'horizontal-push',     // fade, horizontal-slide, vertical-slide, horizontal-push, vertical-push
-			animationSpeed: 600,        // how fast animtions are
-			timer: true,            // true or false to have the timer
-			advanceSpeed: 4000,         // if timer is enabled, time between transitions
-			pauseOnHover: false,        // if you hover pauses the slider
-			startClockOnMouseOut: false,    // if clock should start on MouseOut
-			startClockOnMouseOutAfter: 1000,  // how long after MouseOut should the timer start again
-			directionalNav: true,         // manual advancing directional navs
-			captions: true,           // do you want captions?
-			captionAnimation: 'fade',       // fade, slideOpen, none
-			captionAnimationSpeed: 600,     // if so how quickly should they animate in
-			bullets: false,           // true or false to activate the bullet navigation
-			bulletThumbs: false,        // thumbnails for the bullets
-			bulletThumbLocation: '',      // location from this file where thumbs will be
-			afterSlideChange: $.noop,   // empty function
-			fluid: true,             // true or ratio (ex: 4x3) to force an aspect ratio for content slides, only works from within a fluid layout
-			centerBullets: true    // center bullet nav with js, turn this off if you want to position the bullet nav manually
+			animation: 'horizontal-push',    // fade, horizontal-slide, vertical-slide, horizontal-push, vertical-push
+			animationSpeed: 600,             // how fast animtions are
+			timer: true,                     // true or false to have the timer
+			advanceSpeed: 4000,              // if timer is enabled, time between transitions
+			pauseOnHover: false,             // if you hover pauses the slider
+			startClockOnMouseOut: false,     // if clock should start on MouseOut
+			startClockOnMouseOutAfter: 1000, // how long after MouseOut should the timer start again
+			directionalNav: true,            // manual advancing directional navs
+			captions: true,                  // do you want captions?
+			captionAnimation: 'fade',        // fade, slideOpen, none
+			captionAnimationSpeed: 600,      // if so how quickly should they animate in
+			bullets: false,                  // true or false to activate the bullet navigation
+			bulletThumbs: false,             // thumbnails for the bullets
+			bulletThumbLocation: '',         // location from this file where thumbs will be
+			afterSlideChange: $.noop,        // empty function
+			fluid: true,                     // true or ratio (ex: 4x3) to force an aspect ratio for content slides, only works from within a fluid layout
+			centerBullets: true              // center bullet nav with js, turn this off if you want to position the bullet nav manually
 		},
 
 		activeSlide: 0,
@@ -47,8 +47,8 @@
 
 		init: function (element, options) {
 			var $imageSlides,
-					imagesLoadedCount = 0,
-					self = this;
+			    imagesLoadedCount = 0,
+			    self = this;
 
 			// Bind functions to correct context
 			this.clickTimer = $.proxy(this.clickTimer, this);
@@ -81,23 +81,23 @@
 				this.$wrapper.addClass('fluid');
 			}
 
-			this.$element.bind('orbit.next', function () {
+			this.$element.on('orbit.next', function () {
 				self.shift('next');
 			});
 
-			this.$element.bind('orbit.prev', function () {
+			this.$element.on('orbit.prev', function () {
 				self.shift('prev');
 			});
 
-			this.$element.bind('orbit.goto', function (event, index) {
+			this.$element.on('orbit.goto', function (event, index) {
 				self.shift(index);
 			});
 
-			this.$element.bind('orbit.start', function () {
+			this.$element.on('orbit.start', function () {
 				self.startClock();
 			});
 
-			this.$element.bind('orbit.stop', function () {
+			this.$element.on('orbit.stop', function () {
 				self.stopClock();
 			});
 
@@ -106,7 +106,7 @@
 			if ($imageSlides.length === 0) {
 				this.loaded();
 			} else {
-				$imageSlides.bind('imageready', function () {
+				$imageSlides.on('imageready', function () {
 					imagesLoadedCount += 1;
 					if (imagesLoadedCount === $imageSlides.length) {
 						self.loaded();
@@ -118,7 +118,7 @@
 		loaded: function () {
 			this.$element
 				.addClass('orbit')
-				.css({width: '1px', height: '1px'});
+				.css({ width: '1px', height: '1px' });
 
 			this.setDimentionsFromLargestSlide();
 			this.updateOptionsIfOnlyOneSlide();
@@ -176,17 +176,16 @@
 			});
 
 			if (this.options.fluid) {
-
 				if (typeof this.options.fluid === "string") {
 					$fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />');
 				}
 
 				self.$element.prepend($fluidPlaceholder);
 				$fluidPlaceholder.addClass('fluid-placeholder');
-				self.$element.add(self.$wrapper).css({width: 'inherit'});
-				self.$element.add(self.$wrapper).css({height: 'inherit'});
+				self.$element.add(self.$wrapper).css({ width: 'inherit' });
+				self.$element.add(self.$wrapper).css({ height: 'inherit' });
 
-				$(window).bind('resize', function () {
+				$(window).on('resize', function () {
 					self.orbitWidth = self.$element.width();
 					self.orbitHeight = self.$element.height();
 				});
@@ -240,7 +239,8 @@
 			this.$rotator.css({
 				"-webkit-transform": degreeCSS,
 				"-moz-transform": degreeCSS,
-				"-o-transform": degreeCSS
+				"-o-transform": degreeCSS,
+				"transform": degreeCSS
 			});
 			if(this.degrees > 180) {
 				this.$rotator.addClass('move');
@@ -326,7 +326,7 @@
 				this.$caption
 					.attr('id', captionLocation) // Add ID caption TODO why is the id being set?
 					.html(captionHTML); // Change HTML in Caption
-					//Animations for Caption entrances
+				//Animations for Caption entrances
 				switch (this.options.captionAnimation) {
 					case 'none':
 						this.$caption.show();
@@ -469,9 +469,9 @@
 				if (this.options.animation === "fade") {
 					this.$slides
 						.eq(this.activeSlide)
-						.css({"opacity" : 0})
+						.css({ "opacity" : 0 })
 						.addClass('active')
-						.animate({"opacity" : 1}, this.options.animationSpeed, this.resetAndUnlock);
+						.animate({ "opacity": 1 }, this.options.animationSpeed, this.resetAndUnlock);
 				}
 
 				//horizontal-slide
@@ -563,65 +563,7 @@
 		}
 	};
 
-	$.fn.orbit = function (options) {
-		return this.each(function () {
-			var orbit = $.extend({}, ORBIT);
-			orbit.init(this, options);
-		});
-	};
 
-})(jQuery);
-
-/*!
- * jQuery imageready Plugin
- * http://www.zurb.com/playground/
- *
- * Copyright 2011, ZURB
- * Released under the MIT License
- */
-(function ($) {
-
-	'use strict';
-
-	var options = {};
-
-	$.event.special.imageready = {
-
-		setup: function (data) {
-			options = data || options;
-		},
-
-		add: function (handleObj) {
-			var $this = $(this),
-					src;
-
-			if ( this.nodeType === 1 && this.tagName.toLowerCase() === 'img' && this.src !== '' ) {
-				if (options.forceLoad) {
-					src = $this.attr('src');
-					$this.attr('src', '');
-					bindToLoad(this, handleObj.handler);
-					$this.attr('src', src);
-				} else if ( this.complete || this.readyState === 4 ) {
-					handleObj.handler.apply(this, arguments);
-				} else {
-					bindToLoad(this, handleObj.handler);
-				}
-			}
-		},
-
-		teardown: function () {
-			$(this).unbind('.imageready');
-		}
-	};
-
-	function bindToLoad(element, callback) {
-		var $this = $(element);
-
-		$this.bind('load.imageready', function () {
-			 callback.apply(element, arguments);
-			 $this.unbind('load.imageready');
-		 });
-	}
 
 
 	/**
@@ -701,5 +643,69 @@
 	if ($slider.length > 0) {
 		$slider[0].addEventListener('touchstart', methods.onTouchStart, false);
 	}
+
+
+	/**
+	 * Make it a plugin
+	 */
+	$.fn.orbit = function (options) {
+		return this.each(function () {
+			var orbit = $.extend({}, ORBIT);
+			orbit.init(this, options);
+		});
+	};
+
+})(jQuery);
+
+/*!
+ * jQuery imageready Plugin
+ * http://www.zurb.com/playground/
+ *
+ * Copyright 2011, ZURB
+ * Released under the MIT License
+ */
+(function ($) {
+
+	'use strict';
+
+	var options = {};
+
+	var bindToLoad = function (element, callback) {
+		var $this = $(element);
+
+		$this.on('load.imageready', function () {
+			callback.apply(element, arguments);
+			$this.off('load.imageready');
+		});
+	};
+
+	$.event.special.imageready = {
+
+		setup: function (data) {
+			options = data || options;
+		},
+
+		add: function (handleObj) {
+			var $this = $(this),
+					src;
+
+			if ( this.nodeType === 1 && this.tagName.toLowerCase() === 'img' && this.src !== '' ) {
+				if (options.forceLoad) {
+					src = $this.attr('src');
+					$this.attr('src', '');
+					bindToLoad(this, handleObj.handler);
+					$this.attr('src', src);
+				} else if ( this.complete || this.readyState === 4 ) {
+					handleObj.handler.apply(this, arguments);
+				} else {
+					bindToLoad(this, handleObj.handler);
+				}
+			}
+		},
+
+		teardown: function () {
+			$(this).off('.imageready');
+		}
+	};
 
 }(jQuery));
