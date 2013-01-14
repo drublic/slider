@@ -1,72 +1,49 @@
 <!DOCTYPE html>
-
-
-
-<!--
- * Markup for jQuery Orbit
- * www.ZURB.com/playground
- * Copyright 2010, ZURB
- * Free to use under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- -->
-
-
-
 	<head>
 		<meta charset="utf-8" />
 		<title>Orbit Demo</title>
 
 		<!-- Attach our CSS -->
-	  	<link rel="stylesheet" href="../orbit.css">
-			<link rel="stylesheet" href="globals.css">
-			<link rel="stylesheet" href="grid.css">
-			<link rel="stylesheet" href="mobile.css">
-			<link rel="stylesheet" href="typography.css">
-	  	<link rel="stylesheet" href="demo-style.css">
-
-		<!-- Attach necessary JS -->
-		<script type="text/javascript" src="../jquery-1.8.3.min.js"></script>
-		<script type="text/javascript" src="../jquery.orbit.js"></script>
-
-			<!--[if IE]>
-			     <style type="text/css">
-			         .timer { display: none !important; }
-			         div.caption { background:transparent; filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,endColorstr=#99000000);zoom: 1; }
-			    </style>
-			<![endif]-->
-
-		<!-- Run the plugin -->
-		<script type="text/javascript">
-			$(window).load(function() {
-				$('#featured').orbit({bullets: true});
-				$('#featured2').orbit({bullets: true});
-				$('#responsive').orbit({bullets: true, fluid: true});
-			});
-		</script>
-
+		<link rel="stylesheet" href="../build/jquery.orbit-0.1.0.min.css">
+		<link rel="stylesheet" href="globals.css">
+		<link rel="stylesheet" href="grid.css">
+		<link rel="stylesheet" href="mobile.css">
+		<link rel="stylesheet" href="typography.css">
+		<link rel="stylesheet" href="demo-style.css">
 	</head>
 	<body>
 
-	<div class="container">
-		<div class="row">
-			<div class="ten columns">
-				<h4>ZURB's Orbit Slider</h4>
-				<a href="http://www.zurb.com/playground/orbit-jquery-image-slider">View Docs + Playground for Orbit</a>
+		<div class="container">
+			<div class="row">
+				<div class="ten columns">
+					<h4>Orbit Slider</h4>
+					<a href="#">View Docs + Playground for Orbit</a>
 
 
-				<div id="responsive">
-					<div class="content" style="">
-						<h1>Orbit does content now.</h1>
-						<h3>Highlight me...I'm text.</h3>
+					<div id="responsive">
+						<div class="content" style="">
+							<h1>Orbit does content now.</h1>
+							<h3>Highlight me...I'm text.</h3>
+						</div>
+						<img src="images/overflow.jpg" />
+						<img src="images/captions.jpg" data-caption="#htmlCaption" />
+						<img src="images/features.jpg"  />
 					</div>
-					<img src="images/overflow.jpg" />
-					<img src="images/captions.jpg" data-caption="#htmlCaption" />
-					<img src="images/features.jpg"  />
 				</div>
 			</div>
 		</div>
-	</div>
 
+		<!-- Attach necessary JS -->
+		<script src="../jquery-1.8.3.min.js"></script>
+		<script src="../build/jquery.orbit-0.1.0.min.js"></script>
+
+		<!-- Run the plugin -->
+		<script>
+			$('#responsive').orbit({
+				bullets: true,
+				fluid: true
+			});
+		</script>
 
 	</body>
 </html>
