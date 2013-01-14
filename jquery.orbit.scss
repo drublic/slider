@@ -180,6 +180,13 @@
 			background: url(img/left-arrow.png);
 			left: 0;
 		}
+
+		@media screen and (max-width: 36em) {
+			width: 39px;
+			height: 50px;
+			margin-top: -25px;
+			background-size: 100%;
+		}
 	}
 }
 
