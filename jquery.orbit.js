@@ -59,27 +59,40 @@
 			this.clearClockMouseLeaveTimer = $.proxy(this.clearClockMouseLeaveTimer, this);
 			this.rotateTimer = $.proxy(this.rotateTimer, this);
 
+			this.onTouchStart = $.proxy(this.onTouchStart, this);
+			this.onTouchMove = $.proxy(this.onTouchMove, this);
+			this.onTouchEnd = $.proxy(this.onTouchEnd, this);
+			this.resetSlider = $.proxy(this.resetSlider, this);
+			this.getCurrentSlide = $.proxy(this.getCurrentSlide, this);
+
 			this.options = $.extend({}, this.defaults, options);
 
-			if (this.options.timer === 'false') {
-				this.options.timer = false;
+			if (typeof this.options.timer !== 'boolean') {
+				this.options.timer = Boolean(this.options.timer);
 			}
 
-			if (this.options.captions === 'false') {
-				this.options.captions = false;
+			if (typeof this.options.captions !== 'boolean') {
+				this.options.captions = Boolean(this.options.captions);
 			}
 
-			if (this.options.directionalNav === 'false') {
-				this.options.directionalNav = false;
+			if (typeof this.options.directionalNav !== 'boolean') {
+				this.options.directionalNav = Boolean(this.options.directionalNav);
 			}
 
 			this.$element = $(element);
 			this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
 			this.$slides = this.$element.children('img, a, div');
 
-			if (this.options.fluid) {
-				this.$wrapper.addClass('fluid');
-			}
+			// Touch
+			this.startX = null;
+			this.startY = null;
+			this.cwidth = null;
+			this.dx = null;
+			this.scrolling = false;
+
+			// Initialize touch events
+			this.$element[0].addEventListener('touchstart', this.onTouchStart, false);
+
 
 			// Events
 			$(document)
@@ -119,8 +132,7 @@
 
 		loaded: function () {
 			this.$element
-				.addClass('orbit')
-				.css({ width: '1px', height: '1px' });
+				.addClass('orbit');
 
 			this.setDimentionsFromLargestSlide();
 			this.updateOptionsIfOnlyOneSlide();
@@ -150,9 +162,10 @@
 		},
 
 		setDimentionsFromLargestSlide: function () {
-			//Collect all slides and set slider size of largest image
+
+			// Collect all slides and set slider size of largest image
 			var self = this,
-					$fluidPlaceholder;
+			    $fluidPlaceholder;
 
 			self.$element.add(self.$wrapper).width(this.$slides.first().width());
 			self.$element.add(self.$wrapper).height(this.$slides.first().height());
@@ -177,24 +190,22 @@
 				self.numberSlides += 1;
 			});
 
-			if (this.options.fluid) {
-				if (typeof this.options.fluid === "string") {
-					$fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />');
-				}
-
-				self.$element.prepend($fluidPlaceholder);
-				$fluidPlaceholder.addClass('fluid-placeholder');
-				self.$element.add(self.$wrapper).css({ width: 'inherit' });
-				self.$element.add(self.$wrapper).css({ height: 'inherit' });
-
-				$(window).on('resize', function () {
-					self.orbitWidth = self.$element.width();
-					self.orbitHeight = self.$element.height();
-				});
+			if (typeof this.options.fluid === "string") {
+				$fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />');
 			}
+
+			self.$element.prepend($fluidPlaceholder);
+			$fluidPlaceholder.addClass('fluid-placeholder');
+			self.$element.add(self.$wrapper).css({ width: 'inherit' });
+			self.$element.add(self.$wrapper).css({ height: 'inherit' });
+
+			$(window).on('resize', function () {
+				self.orbitWidth = self.$element.width();
+				self.orbitHeight = self.$element.height();
+			});
 		},
 
-		//Animation locking functions
+		// Animation locking functions
 		lock: function () {
 			this.locked = true;
 		},
@@ -562,89 +573,72 @@
 
 				this.setCaption();
 			}
-		}
-	};
+		},
 
+		/**
+		 * Touch events
+		 */
 
-
-
-	/**
-	 * Touch events
-	 */
-
-	if (window.Modernizr && !window.Modernizr.touch) {
-		return;
-	}
-
-	var startX, startY, cwidth, dx,
-			scrolling = false;
-
-	var $slider = $('.orbit');
-	var navigation = $('.slider-nav');
-
-	var methods = {
 		getCurrentSlide: function () {
 			return $('.orbit-bullets > li').index('.active');
 		},
 
 		resetSlider: function () {
-			$slider[0].removeEventListener('touchmove', methods.onTouchMove, false);
-			$slider[0].removeEventListener('touchend', methods.onTouchEnd, false);
+			this.$element[0].removeEventListener('touchmove', this.onTouchMove, false);
+			this.$element[0].removeEventListener('touchend', this.onTouchEnd, false);
 
-			startX = null;
-			startY = null;
-			dx = null;
+			this.startX = null;
+			this.startY = null;
+			this.dx = null;
 		},
 
 		onTouchStart: function (e) {
 			if (e.touches.length === 1) {
-				$slider[0].addEventListener('touchmove', methods.onTouchMove, false);
-				$slider[0].addEventListener('touchend', methods.onTouchEnd, false);
+				this.$element[0].addEventListener('touchmove', this.onTouchMove, false);
+				this.$element[0].addEventListener('touchend', this.onTouchEnd, false);
 
-				startX = e.touches[0].pageX;
-				startY = e.touches[0].pageY;
-				cwidth = $slider.height();
+				this.startX = e.touches[0].pageX;
+				this.startY = e.touches[0].pageY;
+				this.cwidth = this.$element.height();
 			}
 		},
 
 		onTouchMove: function (e) {
-			dx = startX - e.touches[0].pageX;
-			scrolling = Math.abs(dx) < Math.abs(startY - e.touches[0].pageY);
+			var self = this;
+			this.dx = this.startX - e.touches[0].pageX;
+			this.scrolling = Math.abs(this.dx) < Math.abs(this.startY - e.touches[0].pageY);
 
-			if (!scrolling) {
+			if (!this.scrolling) {
 				e.preventDefault();
 
-				dx = (function () {
-					return dx / cwidth;
+				self.dx = (function () {
+					return self.dx / self.cwidth;
 				}());
 			} else {
-				methods.resetSlider();
+				this.resetSlider();
 			}
 		},
 
 		onTouchEnd: function () {
-			if (dx !== null) {
-				var target;
+			var target;
 
-				if (dx > 0) {
-					target = navigation.children('.right');
+			if (this.dx !== null) {
+				if (this.dx > 0) {
+					target = 'orbit.next';
 				} else {
-					target = navigation.children('.left');
+					target = 'orbit.prev';
 				}
 
-				if (Math.abs(dx) > 0.2 || Math.abs(dx) > cwidth / 2) {
-					target.trigger('click');
+				if (Math.abs(this.dx) > 0.2 || Math.abs(this.dx) > this.cwidth / 2) {
+					this.$element.trigger(target);
 				}
 			}
 
 			// finish the touch by undoing the touch session
-			methods.resetSlider();
+			this.resetSlider();
 		}
-	};
 
-	if ($slider.length > 0) {
-		$slider[0].addEventListener('touchstart', methods.onTouchStart, false);
-	}
+	};
 
 
 	/**
@@ -659,7 +653,7 @@
 
 })(jQuery);
 
-/*!
+/**
  * jQuery imageready Plugin
  * http://www.zurb.com/playground/
  *
@@ -667,7 +661,6 @@
  * Released under the MIT License
  */
 (function ($) {
-
 	'use strict';
 
 	var options = {};
