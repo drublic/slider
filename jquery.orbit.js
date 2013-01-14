@@ -81,25 +81,27 @@
 				this.$wrapper.addClass('fluid');
 			}
 
-			this.$element.on('orbit.next', function () {
-				self.shift('next');
-			});
+			// Events
+			$(document)
+				.on('orbit.next', element, function () {
+					self.shift('next');
+				})
 
-			this.$element.on('orbit.prev', function () {
-				self.shift('prev');
-			});
+				.on('orbit.prev', element, function () {
+					self.shift('prev');
+				})
 
-			this.$element.on('orbit.goto', function (event, index) {
-				self.shift(index);
-			});
+				.on('orbit.goto', element, function (event, index) {
+					self.shift(index);
+				})
 
-			this.$element.on('orbit.start', function () {
-				self.startClock();
-			});
+				.on('orbit.start', element, function () {
+					self.startClock();
+				})
 
-			this.$element.on('orbit.stop', function () {
-				self.stopClock();
-			});
+				.on('orbit.stop', element, function () {
+					self.stopClock();
+				});
 
 			$imageSlides = this.$slides.filter('img');
 
@@ -671,11 +673,11 @@
 	var options = {};
 
 	var bindToLoad = function (element, callback) {
-		var $this = $(element);
+		var $element = $(element);
 
-		$this.on('load.imageready', function () {
+		$element.on('load.imageready', function () {
 			callback.apply(element, arguments);
-			$this.off('load.imageready');
+			$element.off('load.imageready');
 		});
 	};
 
