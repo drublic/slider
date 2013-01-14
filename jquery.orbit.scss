@@ -1,18 +1,12 @@
-/* CSS for jQuery Orbit Plugin 1.3.0
+/**
+ * CSS for jQuery Orbit Plugin 1.3.0
  * www.ZURB.com/playground
  * Copyright 2010, ZURB
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
+ */
 
-
-
-/* PUT IN YOUR SLIDER ID AND SIZE TO MAKE LOAD BEAUTIFULLY
-	 ================================================== */
-
-#caseStudies {
-	width: 1000px;
-	height: 210px;
-	background: white url('orbit/loading.gif') no-repeat center center;
+.slider {
 	overflow: hidden;
 
 	> img,
@@ -20,62 +14,55 @@
 	> a {
 		display: none;
 
-		.active {
+		&.active {
 			display: block;
 		}
 	}
 }
 
-/* CONTAINER
-	 ================================================== */
+// CONTAINER
+.orbit-wrapper {
+	position: relative;
+	width: 1px;
+	height: 1px;
+}
 
-div {
-	&.orbit-wrapper {
-		width: 1px;
-		height: 1px;
-		position: relative;
+.orbit {
+	@extend .orbit-wrapper;
+
+	overflow: hidden;
+
+	&.with-bullets {
+		margin-bottom: 40px;
 	}
-	&.orbit {
-		width: 1px;
-		height: 1px;
-		position: relative;
-		overflow: hidden;
-		&.with-bullets {
-			margin-bottom: 40px;
-		}
-		> {
-			img {
-				position: absolute;
-				top: 0;
-				left: 0;
-				/* display: none; */
-			}
-			a {
-				border: none;
-				position: absolute;
-				top: 0;
-				left: 0;
-				line-height: 0;
-				display: none;
-			}
-		}
+
+	> img,
+	> a,
+	> div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		max-width: 100%;
+	}
+
+	> img {
+		height: auto;
+	}
+
+	> a {
+		display: none;
+		border: none;
+		line-height: 0;
+	}
+
+	> div {
+		width: 100%;
+		height: 100%;
 	}
 }
 
-.orbit > div {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-/* Note: If your slider only uses content or anchors, you're going to want to put the width and height declarations on the ".orbit>div" and "div.orbit>a" tags in addition to just the .orbit-wrapper */
-
-/* TIMER
-	 ================================================== */
-
-div.timer {
+// TIMER
+.timer {
 	width: 40px;
 	height: 40px;
 	overflow: hidden;
@@ -87,83 +74,82 @@ div.timer {
 	z-index: 1001;
 }
 
-span {
-	&.rotator {
-		display: block;
-		width: 40px;
-		height: 40px;
-		position: absolute;
-		top: 0;
-		left: -20px;
-		background: url(orbit/rotator-black.png) no-repeat;
-		z-index: 3;
-	}
-	&.mask {
-		display: block;
-		width: 20px;
-		height: 40px;
-		position: absolute;
-		top: 0;
-		right: 0;
-		z-index: 2;
-		overflow: hidden;
-	}
-	&.rotator.move {
-		left: 0;
-	}
-	&.mask.move {
-		width: 40px;
-		left: 0;
-		background: url(orbit/timer-black.png) repeat 0 0;
-	}
-	&.pause {
-		display: block;
-		width: 40px;
-		height: 40px;
-		position: absolute;
-		top: 0;
-		left: 0;
-		background: url(orbit/pause-black.png) no-repeat;
-		z-index: 4;
-		opacity: 0;
-		&.active {
-			background: url(orbit/pause-black.png) no-repeat 0 -40px;
-		}
+.rotator {
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: 0;
+	left: -20px;
+	background: url(img/rotator-black.png) no-repeat;
+	z-index: 3;
+}
+
+.mask {
+	display: block;
+	width: 20px;
+	height: 40px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	overflow: hidden;
+}
+.rotator.move {
+	left: 0;
+}
+.mask.move {
+	width: 40px;
+	left: 0;
+	background: url(img/timer-black.png) repeat 0 0;
+}
+.pause {
+	display: block;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(img/pause-black.png) no-repeat;
+	z-index: 4;
+	opacity: 0;
+
+	&.active {
+		background: url(img/pause-black.png) no-repeat 0 -40px;
 	}
 }
 
-div.timer:hover span.pause, span.pause.active {
+.timer:hover .pause,
+.pause.active {
 	opacity: 1;
 }
 
-/* CAPTIONS
-	 ================================================== */
-
+// CAPTIONS
 .orbit-caption {
 	display: none;
-	font-family: "HelveticaNeue", "Helvetica-Neue", Helvetica, Arial, sans-serif;
+
+	.orbit-wrapper & {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+
+		background: #000;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: 1000;
+		color: #fff;
+		text-align: center;
+		padding: 7px 0;
+		font-size: 13px;
+		width: 100%;
+	}
 }
 
-.orbit-wrapper .orbit-caption {
-	background: #000;
-	background: rgba(0, 0, 0, 0.6);
-	z-index: 1000;
-	color: #fff;
-	text-align: center;
-	padding: 7px 0;
-	font-size: 13px;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	width: 100%;
-}
 
-/* DIRECTIONAL NAV
-	 ================================================== */
-
-div.slider-nav {
+// DIRECTIONAL NAV
+.slider-nav {
 	display: block;
-	span {
+
+	a {
 		width: 78px;
 		height: 100px;
 		text-indent: -9999px;
@@ -172,12 +158,14 @@ div.slider-nav {
 		top: 50%;
 		margin-top: -50px;
 		cursor: pointer;
+
 		&.right {
-			background: url(orbit/right-arrow.png);
+			background: url(img/right-arrow.png);
 			right: 0;
 		}
+
 		&.left {
-			background: url(orbit/left-arrow.png);
+			background: url(img/left-arrow.png);
 			left: 0;
 		}
 	}
@@ -200,7 +188,7 @@ div.slider-nav {
 		cursor: pointer;
 		color: #999;
 		text-indent: -9999px;
-		background: url(orbit/bullets.jpg) no-repeat 4px 0;
+		background: url(img/bullets.jpg) no-repeat 4px 0;
 		width: 13px;
 		height: 12px;
 		overflow: hidden;
