@@ -403,7 +403,7 @@
 
 		addBullet: function (index, slide) {
 			var position = index + 1,
-					$li = $('<li>' + (position) + '</li>'),
+					$li = $('<li><a href="#">' + (position) + '</a></li>'),
 					thumbName,
 					self = this;
 
