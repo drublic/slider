@@ -1,8 +1,9 @@
-/**
+/*!
  * jQuery Content Slider Orbit
  * Build upon ZURB's Slider, www.ZURB.com/playground
  *
  * @author Hans Christian Reinl - @drublic
+ * @version 0.1.0
  */
 
 
