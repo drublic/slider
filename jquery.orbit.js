@@ -49,8 +49,8 @@
 
 		init: function (element, options) {
 			var $imageSlides,
-			    imagesLoadedCount = 0,
-			    self = this;
+				imagesLoadedCount = 0,
+				self = this;
 
 			// Bind functions to correct context
 			this.clickTimer = $.proxy(this.clickTimer, this);
@@ -171,7 +171,7 @@
 
 			// Collect all slides and set slider size of largest image
 			var self = this,
-			    $fluidPlaceholder;
+				$fluidPlaceholder;
 
 			self.$element.add(self.$wrapper).width(this.$slides.first().width());
 			self.$element.add(self.$wrapper).height(this.$slides.first().height());
@@ -710,6 +710,70 @@
 		teardown: function () {
 			$(this).off('.imageready');
 		}
+	};
+
+}(jQuery));
+
+
+/*!
+ * requestAnimationFrame plugin for jQuery
+ * Please see https://gist.github.com/dantipa/3524146
+ */
+(function($) {
+	// requestAnimationFrame polyfill by Erik Möller
+	// fixes from Paul Irish and Tino Zijdel
+
+	'use strict';
+
+	var lastTime = 0;
+	var running;
+	var animate = function (element) {
+		if (running) {
+			window.requestAnimationFrame(animate, element);
+			$.fx.tick();
+		}
+	};
+	var vendors = ['ms', 'moz', 'webkit', 'o'];
+
+	for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+		window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+		window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] ||
+		window[vendors[x]+'CancelRequestAnimationFrame'];
+	}
+
+	if (!window.requestAnimationFrame) {
+		window.requestAnimationFrame = function(callback, element) {
+			element = undefined;
+
+			var currTime = new Date().getTime();
+			var delta = currTime - lastTime;
+			var timeToCall = Math.max(0, 16 - delta);
+
+			var id = window.setTimeout(function () {
+				callback(currTime + timeToCall);
+			},timeToCall);
+
+			lastTime = currTime + timeToCall;
+
+			return id;
+		};
+	}
+
+	if (!window.cancelAnimationFrame) {
+		window.cancelAnimationFrame = function (id) {
+			clearTimeout(id);
+		};
+	}
+
+	$.fx.timer = function (timer) {
+		if (timer() && $.timers.push(timer) && !running) {
+			running = true;
+			animate(timer.elem);
+		}
+	};
+
+	$.fx.stop = function () {
+		running = false;
 	};
 
 }(jQuery));
