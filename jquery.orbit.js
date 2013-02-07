@@ -28,8 +28,10 @@
 			bullets: false,                  // true or false to activate the bullet navigation
 			bulletThumbs: false,             // thumbnails for the bullets
 			bulletThumbLocation: '',         // location from this file where thumbs will be
+			beforeSlideChange: $.noop,       // empty function
 			afterSlideChange: $.noop,        // empty function
 			afterInit: $.noop,               // when slider initialisation is done
+			touchNavigation: true,           // Turn on or off navigation on slide
 			fluid: true,                     // true or ratio (ex: 4x3) to force an aspect ratio for content slides, only works from within a fluid layout
 			centerBullets: true              // center bullet nav with js, turn this off if you want to position the bullet nav manually
 		},
@@ -83,7 +85,7 @@
 
 			this.$element = $(element);
 			this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
-			this.$slides = this.$element.children('img, a, div');
+			this.$slides = this.$element.children('img, a, div, li');
 
 			// Touch
 			this.startX = null;
@@ -478,6 +480,11 @@
 					}
 				}
 
+				// Do stuff before the slide changes
+				if (this.options.beforeSlideChange) {
+					this.options.beforeSlideChange(this.$slides.eq(this.activeSlide));
+				}
+
 				//set to correct bullet
 				this.setActiveBullet();
 
@@ -601,6 +608,12 @@
 		},
 
 		onTouchStart: function (e) {
+
+			// Don't do anything if touch events are turned off
+			if (this.options.touchNavigation === false) {
+				return false;
+			}
+
 			if (e.touches.length === 1) {
 				this.$element[0].addEventListener('touchmove', this.onTouchMove, false);
 				this.$element[0].addEventListener('touchend', this.onTouchEnd, false);
@@ -719,7 +732,7 @@
  * requestAnimationFrame plugin for jQuery
  * Please see https://gist.github.com/dantipa/3524146
  */
-(function($) {
+(function ($) {
 	// requestAnimationFrame polyfill by Erik Möller
 	// fixes from Paul Irish and Tino Zijdel
 
