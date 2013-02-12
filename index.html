@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Orbit Slider</title>
+		<title>jQuery Slider</title>
 
 		<!-- Attach CSS -->
 		<link rel="stylesheet" href="site/normalize.css">
-		<link rel="stylesheet" href="build/jquery.orbit-0.1.0.min.css">
+		<link rel="stylesheet" href="build/jquery.slider-0.2.0.min.css">
 		<link rel="stylesheet" href="site/site.css">
 
 		<meta name="viewport" content="width=device-width">
@@ -13,13 +13,11 @@
 	<body>
 
 		<div class="container">
-			<h4>Orbit Slider</h4>
-			<a href="#">View Docs + Playground for Orbit</a>
-
+			<h4>jQuery Slider</h4>
 
 			<div class="slider">
 				<div class="content" style="">
-					<h1>Orbit does content now.</h1>
+					<h1>Slider does content now.</h1>
 					<h3>Highlight me...I'm text.</h3>
 				</div>
 				<img src="site/img/overflow.jpg">
@@ -34,12 +32,12 @@
 
 		<!-- Attach necessary JS -->
 		<script src="site/jquery-1.9.0.min.js"></script>
-		<!-- <script src="build/jquery.orbit-0.1.0.min.js"></script> -->
-		<script src="jquery.orbit.js"></script>
+		<!-- <script src="build/jquery.slider-0.2.0.min.js"></script> -->
+		<script src="jquery.slider.js"></script>
 
 		<!-- Run the plugin -->
 		<script>
-			$('.slider').orbit({
+			$('.slider').slider({
 				animation: 'fade',
 				bullets: true
 			});

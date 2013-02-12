@@ -1,9 +1,8 @@
 /*!
- * jQuery Content Slider Orbit
- * Build upon ZURB's Slider, www.ZURB.com/playground
+ * jQuery Content Slider
  *
  * @author Hans Christian Reinl - @drublic
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 
@@ -11,7 +10,7 @@
 
 	'use strict';
 
-	var ORBIT = {
+	var SLIDER = {
 
 		defaults: {
 			animation: 'horizontal-push',    // fade, horizontal-slide, vertical-slide, horizontal-push, vertical-push
@@ -38,16 +37,16 @@
 
 		activeSlide: 0,
 		numberSlides: 0,
-		orbitWidth: null,
-		orbitHeight: null,
+		sliderWidth: null,
+		sliderHeight: null,
 		locked: null,
 		timerRunning: null,
 		degrees: 0,
-		wrapperHTML: '<div class="orbit-wrapper" />',
+		wrapperHTML: '<div class="slider-wrapper" />',
 		timerHTML: '<div class="timer"><span class="mask"><span class="rotator"></span></span><span class="pause"></span></div>',
-		captionHTML: '<div class="orbit-caption"></div>',
+		captionHTML: '<div class="slider-caption"></div>',
 		directionalNavHTML: '<div class="slider-nav"><a href="#!" class="right">Right</a><a href="#!" class="left">Left</a></div>',
-		bulletHTML: '<ul class="orbit-bullets"></ul>',
+		bulletHTML: '<ul class="slider-bullets"></ul>',
 
 		init: function (element, options) {
 			var $imageSlides,
@@ -100,23 +99,23 @@
 
 			// Events
 			$(document)
-				.on('orbit.next', element, function () {
+				.on('slider.next', element, function () {
 					self.shift('next');
 				})
 
-				.on('orbit.prev', element, function () {
+				.on('slider.prev', element, function () {
 					self.shift('prev');
 				})
 
-				.on('orbit.goto', element, function (event, index) {
+				.on('slider.goto', element, function (event, index) {
 					self.shift(index);
 				})
 
-				.on('orbit.start', element, function () {
+				.on('slider.start', element, function () {
 					self.startClock();
 				})
 
-				.on('orbit.stop', element, function () {
+				.on('slider.stop', element, function () {
 					self.stopClock();
 				});
 
@@ -136,7 +135,7 @@
 
 		loaded: function () {
 			this.$element
-				.addClass('orbit');
+				.addClass('slider');
 
 			this.setDimentionsFromLargestSlide();
 			this.updateOptionsIfOnlyOneSlide();
@@ -177,8 +176,8 @@
 
 			self.$element.add(self.$wrapper).width(this.$slides.first().width());
 			self.$element.add(self.$wrapper).height(this.$slides.first().height());
-			self.orbitWidth = this.$slides.first().width();
-			self.orbitHeight = this.$slides.first().height();
+			self.sliderWidth = this.$slides.first().width();
+			self.sliderHeight = this.$slides.first().height();
 			$fluidPlaceholder = this.$slides.first().clone();
 
 			this.$slides.each(function () {
@@ -188,11 +187,11 @@
 
 				if (slideWidth > self.$element.width()) {
 					self.$element.add(self.$wrapper).width(slideWidth);
-					self.orbitWidth = self.$element.width();
+					self.sliderWidth = self.$element.width();
 				}
 				if (slideHeight > self.$element.height()) {
 					self.$element.add(self.$wrapper).height(slideHeight);
-					self.orbitHeight = self.$element.height();
+					self.sliderHeight = self.$element.height();
 					$fluidPlaceholder = $(this).clone();
 				}
 				self.numberSlides += 1;
@@ -208,8 +207,8 @@
 			self.$element.add(self.$wrapper).css({ height: 'inherit' });
 
 			$(window).on('resize', function () {
-				self.orbitWidth = self.$element.width();
-				self.orbitHeight = self.$element.height();
+				self.sliderWidth = self.$element.width();
+				self.sliderHeight = self.$element.height();
 			});
 		},
 
@@ -245,7 +244,7 @@
 
 			if (this.$timer.is(':hidden')) {
 				this.clock = setInterval(function () {
-					self.$element.trigger('orbit.next');
+					self.$element.trigger('slider.next');
 				}, this.options.advanceSpeed);
 			} else {
 				this.timerRunning = true;
@@ -271,7 +270,7 @@
 				this.$rotator.removeClass('move');
 				this.$mask.removeClass('move');
 				this.degrees = 0;
-				this.$element.trigger('orbit.next');
+				this.$element.trigger('slider.next');
 			}
 		},
 
@@ -384,12 +383,12 @@
 
 			this.$wrapper.find('.left').click(function () {
 				self.stopClock();
-				self.$element.trigger('orbit.prev');
+				self.$element.trigger('slider.prev');
 			});
 
 			this.$wrapper.find('.right').click(function () {
 				self.stopClock();
-				self.$element.trigger('orbit.next');
+				self.$element.trigger('slider.next');
 			});
 		},
 
@@ -422,7 +421,7 @@
 			$li.data('index', index);
 			$li.click(function () {
 				self.stopClock();
-				self.$element.trigger('orbit.goto', [$li.data('index')]);
+				self.$element.trigger('slider.goto', [$li.data('index')]);
 			});
 		},
 
@@ -508,14 +507,14 @@
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": this.orbitWidth})
+							.css({"left": this.sliderWidth})
 							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
 					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": -this.orbitWidth})
+							.css({"left": -this.sliderWidth})
 							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
 				}
@@ -526,14 +525,14 @@
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"top": this.orbitHeight})
+							.css({"top": this.sliderHeight})
 							.animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
 					if (slideDirection === "next") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"top": -this.orbitHeight})
+							.css({"top": -this.sliderHeight})
 							.animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
 				}
@@ -544,21 +543,21 @@
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": this.orbitWidth})
+							.css({"left": this.sliderWidth})
 							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 						this.$slides
 							.eq(this.prevActiveSlide)
-							.animate({"left" : -this.orbitWidth}, this.options.animationSpeed);
+							.animate({"left" : -this.sliderWidth}, this.options.animationSpeed);
 					}
 					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": -this.orbitWidth})
+							.css({"left": -this.sliderWidth})
 							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
 						this.$slides
 							.eq(this.prevActiveSlide)
-							.animate({"left" : this.orbitWidth}, this.options.animationSpeed);
+							.animate({"left" : this.sliderWidth}, this.options.animationSpeed);
 					}
 				}
 
@@ -568,21 +567,21 @@
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({top: -this.orbitHeight})
+							.css({top: -this.sliderHeight})
 							.animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
 						this.$slides
 							.eq(this.prevActiveSlide)
-							.animate({top : this.orbitHeight}, this.options.animationSpeed);
+							.animate({top : this.sliderHeight}, this.options.animationSpeed);
 					}
 					if (slideDirection === "prev") {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({top: this.orbitHeight})
+							.css({top: this.sliderHeight})
 							.animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
 						this.$slides
 							.eq(this.prevActiveSlide)
-							.animate({top : -this.orbitHeight}, this.options.animationSpeed);
+							.animate({top : -this.sliderHeight}, this.options.animationSpeed);
 					}
 				}
 
@@ -595,7 +594,7 @@
 		 */
 
 		getCurrentSlide: function () {
-			return $('.orbit-bullets > li').index('.active');
+			return $('.slider-bullets > li').index('.active');
 		},
 
 		resetSlider: function () {
@@ -645,9 +644,9 @@
 
 			if (this.dx !== null) {
 				if (this.dx > 0) {
-					target = 'orbit.next';
+					target = 'slider.next';
 				} else {
-					target = 'orbit.prev';
+					target = 'slider.prev';
 				}
 
 				if (Math.abs(this.dx) > 0.2 || Math.abs(this.dx) > this.cwidth / 2) {
@@ -665,10 +664,10 @@
 	/**
 	 * Make it a plugin
 	 */
-	$.fn.orbit = function (options) {
+	$.fn.slider = function (options) {
 		return this.each(function () {
-			var orbit = $.extend({}, ORBIT);
-			orbit.init(this, options);
+			var slider = $.extend({}, SLIDER);
+			slider.init(this, options);
 		});
 	};
 

@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 		jshint: {
 			all: [
 				'Gruntfile.js',
-				'jquery.orbit.js'
+				'jquery.slider.js'
 			],
 			options: {
 				jshintrc: '.jshintrc'
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
 					style: 'compressed'
 				},
 				files: {
-					'build/jquery.orbit-<%= pkg.version %>.min.css': 'jquery.orbit.scss'
+					'build/jquery.slider-<%= pkg.version %>.min.css': 'jquery.slider.scss'
 				}
 
 			}
@@ -34,22 +34,22 @@ module.exports = function (grunt) {
 
 		uglify: {
 			deploy: {
-				src: 'jquery.orbit.js',
-				dest: 'build/jquery.orbit-<%= pkg.version %>.min.js'
+				src: 'jquery.slider.js',
+				dest: 'build/jquery.slider-<%= pkg.version %>.min.js'
 			}
 		},
 
 		watch: {
 
 			scss: {
-				files: ['jquery.orbit.scss'],
+				files: ['jquery.slider.scss'],
 				tasks: 'sass'
 			},
 
 			js: {
 				files: [
 					'Gruntfile.js',
-					'jquery.orbit.js'
+					'jquery.slider.js'
 				],
 				tasks: ['jshint', 'uglify']
 			}

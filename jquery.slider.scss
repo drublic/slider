@@ -19,14 +19,14 @@
 }
 
 // CONTAINER
-.orbit-wrapper {
+.slider-wrapper {
 	position: relative;
 	width: 100% !important;
 	height: 1px;
 }
 
-.orbit {
-	@extend .orbit-wrapper;
+.slider {
+	@extend .slider-wrapper;
 
 	overflow: hidden;
 
@@ -37,6 +37,8 @@
 	> img,
 	> a,
 	> div {
+		-webkit-transform: translate3d(0,0,0);
+
 		display: block;
 
 		position: absolute;
@@ -138,10 +140,10 @@
 }
 
 // CAPTIONS
-.orbit-caption {
+.slider-caption {
 	display: none;
 
-	.orbit-wrapper & {
+	.slider-wrapper & {
 		position: absolute;
 		right: 0;
 		bottom: 0;
@@ -196,7 +198,7 @@
 }
 
 // BULLET NAV
-.orbit-bullets {
+.slider-bullets {
 	list-style: none;
 
 	position: absolute;

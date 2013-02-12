@@ -1,8 +1,8 @@
 {
-	"name": "orbit",
-	"title": "Orbit Slider",
+	"name": "slider",
+	"title": "Slider",
 	"description": "A content slider",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"homepage": "",
 	"authors": [{
 		"name": "ZURB",
@@ -13,10 +13,10 @@
 	}],
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:drublic/orbit.git"
+		"url": "git@github.com:drublic/slider.git"
 	},
 	"bugs": {
-		"url": "https://github.com/drublic/orbit/issues"
+		"url": "https://github.com/drublic/slider/issues"
 	},
 	"license": "MIT",
 	"dependencies": {},
