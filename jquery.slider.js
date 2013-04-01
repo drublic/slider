@@ -94,7 +94,9 @@
 			this.scrolling = false;
 
 			// Initialize touch events
-			this.$element[0].addEventListener('touchstart', this.onTouchStart, false);
+			if (this.$element[0].addEventListener) {
+				this.$element[0].addEventListener('touchstart', this.onTouchStart, false);
+			}
 
 
 			// Events
