@@ -100,26 +100,28 @@
 
 
 			// Events
-			$(document)
-				.on('slider.next', element, function () {
+
+			this.$element
+				.on('slider.next', function () {
 					self.shift('next');
 				})
 
-				.on('slider.prev', element, function () {
+				.on('slider.prev', function () {
 					self.shift('prev');
 				})
 
-				.on('slider.goto', element, function (event, index) {
+				.on('slider.goto', function (event, index) {
 					self.shift(index);
 				})
 
-				.on('slider.start', element, function () {
+				.on('slider.start', function () {
 					self.startClock();
 				})
 
-				.on('slider.stop', element, function () {
+				.on('slider.stop', function () {
 					self.stopClock();
 				});
+
 
 			$imageSlides = this.$slides.filter('img');
 
@@ -176,9 +178,9 @@
 			var self = this,
 				$fluidPlaceholder;
 
-			self.$element.add(self.$wrapper).width(this.$slides.first().width());
+			self.$element.add(self.$wrapper).width(this.$slides.first().outerWidth());
 			self.$element.add(self.$wrapper).height(this.$slides.first().height());
-			self.sliderWidth = this.$slides.first().width();
+			self.sliderWidth = this.$slides.first().outerWidth();
 			self.sliderHeight = this.$slides.first().height();
 			$fluidPlaceholder = this.$slides.first().clone();
 
