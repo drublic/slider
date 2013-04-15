@@ -73,6 +73,12 @@
 		position: static;
 		display: block;
 		width: 100%;
+
+		+ img,
+		+ a,
+		+ div {
+			left: 0;
+		}
 	}
 }
 
