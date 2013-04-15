@@ -18,7 +18,7 @@
 	}
 }
 
-// CONTAINER
+// Container
 .slider-wrapper {
 	position: relative;
 	width: 100% !important;
@@ -216,19 +216,20 @@
 	padding: 0;
 
 	li {
+		-webkit-border-radius: 5px;
+		        border-radius: 5px;
+
 		float: left;
-		margin-left: 5px;
+		margin: 0 3px;
 		cursor: pointer;
-		color: #999;
-		text-indent: -9999px;
-		background: url(img/bullets.jpg) no-repeat 4px 0;
-		width: 13px;
-		height: 12px;
+		background-color: #999;
+		text-indent: -200px;
+		width: 10px;
+		height: 10px;
 		overflow: hidden;
 
 		&.active {
-			color: #222;
-			background-position: -8px 0;
+			background-color: #222;
 		}
 
 		&.has-thumb {
@@ -238,7 +239,6 @@
 		}
 
 		&.active.has-thumb {
-			background-position: 0 0;
 			border-top: 2px solid #000;
 		}
 	}
