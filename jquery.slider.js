@@ -385,12 +385,14 @@
 
 			this.$wrapper.append(this.directionalNavHTML);
 
-			this.$wrapper.find('.left').click(function () {
+			this.$wrapper.find('.left').on('click', function (event) {
+				event.preventDefault();
 				self.stopClock();
 				self.$element.trigger('slider.prev');
 			});
 
-			this.$wrapper.find('.right').click(function () {
+			this.$wrapper.find('.right').on('click', function (event) {
+				event.preventDefault();
 				self.stopClock();
 				self.$element.trigger('slider.next');
 			});
