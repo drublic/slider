@@ -3,13 +3,14 @@
  * Build upon ZURB's Slider, www.ZURB.com/playground
  *
  * @author Hans Christian Reinl - @drublic
- * @version 0.2.1
+ * @version 0.2.2pre
  */
 
 .slider {
 	> img,
 	> a,
-	> div {
+	> div,
+	> li {
 		display: none;
 
 		&:first-child {
@@ -36,7 +37,8 @@
 
 	> img,
 	> a,
-	> div {
+	> div,
+	> li {
 		-webkit-transform: translate3d(0,0,0);
 
 		display: block;
@@ -76,7 +78,8 @@
 
 		+ img,
 		+ a,
-		+ div {
+		+ div,
+		+ li {
 			left: 0;
 		}
 	}
