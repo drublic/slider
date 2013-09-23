@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Use characters instead of images for navigation
 * Use links for styling of bullets
 
 ### v0.3.0
