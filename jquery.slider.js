@@ -201,8 +201,8 @@
 				self.numberSlides += 1;
 			});
 
-			if (typeof this.options.fluid === "string") {
-				$fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '" />');
+			if (typeof this.options.fluid === 'string') {
+				$fluidPlaceholder = $('<img src="http://placehold.it/' + this.options.fluid + '">');
 			}
 
 			self.$element.prepend($fluidPlaceholder);
@@ -258,19 +258,22 @@
 		},
 
 		rotateTimer: function () {
-			var degreeCSS = "rotate(" + this.degrees + "deg)";
+			var degreeCSS = 'rotate(' + this.degrees + 'deg)';
+
 			this.degrees += 2;
 			this.$rotator.css({
-				"-webkit-transform": degreeCSS,
-				"-moz-transform": degreeCSS,
-				"-o-transform": degreeCSS,
-				"transform": degreeCSS
+				'-webkit-transform': degreeCSS,
+				   '-moz-transform': degreeCSS,
+				     '-o-transform': degreeCSS,
+				        'transform': degreeCSS
 			});
-			if(this.degrees > 180) {
+
+			if (this.degrees > 180) {
 				this.$rotator.addClass('move');
 				this.$mask.addClass('move');
 			}
-			if(this.degrees > 360) {
+
+			if (this.degrees > 360) {
 				this.$rotator.removeClass('move');
 				this.$mask.removeClass('move');
 				this.degrees = 0;
@@ -410,21 +413,26 @@
 		},
 
 		addBullet: function (index, slide) {
-			var position = index + 1,
-					$li = $('<li><a href="#">' + (position) + '</a></li>'),
-					thumbName,
-					self = this;
+			var position = index + 1;
+			var $li = $('<li><a href="#">' + position + '</a></li>');
+			var thumbName;
+			var self = this;
 
 			if (this.options.bulletThumbs) {
 				thumbName = $(slide).attr('data-thumb');
+
 				if (thumbName) {
 					$li
 						.addClass('has-thumb')
-						.css({background: "url(" + this.options.bulletThumbLocation + thumbName + ") no-repeat"});
+						.css({
+							background: 'url(' + this.options.bulletThumbLocation + thumbName + ') no-repeat'
+						});
 				}
 			}
+
 			this.$bullets.append($li);
 			$li.data('index', index);
+
 			$li.click(function () {
 				self.stopClock();
 				self.$element.trigger('slider.goto', [$li.data('index')]);
@@ -432,7 +440,9 @@
 		},
 
 		setActiveBullet: function () {
-			if(!this.options.bullets) { return false; } else {
+			if (!this.options.bullets) {
+				return false;
+			} else {
 				this.$bullets.find('li')
 					.removeClass('active')
 					.eq(this.activeSlide)
@@ -459,19 +469,21 @@
 				return false;
 			}
 
-			if (this.$slides.length === "1") {
+			if (this.$slides.length === '1') {
 				return false;
 			}
 
 			if (!this.locked) {
 				this.lock();
-				//deduce the proper activeImage
-				if (direction === "next") {
+
+				// Deduce the proper activeImage
+				if (direction === 'next') {
 					this.activeSlide += 1;
 					if (this.activeSlide === this.numberSlides) {
 							this.activeSlide = 0;
 					}
-				} else if (direction === "prev") {
+
+				} else if (direction === 'prev') {
 					this.activeSlide -= 1;
 					if (this.activeSlide < 0) {
 						this.activeSlide = this.numberSlides - 1;
@@ -479,9 +491,9 @@
 				} else {
 					this.activeSlide = direction;
 					if (this.prevActiveSlide < this.activeSlide) {
-						slideDirection = "next";
+						slideDirection = 'next';
 					} else if (this.prevActiveSlide > this.activeSlide) {
-						slideDirection = "prev";
+						slideDirection = 'prev';
 					}
 				}
 
@@ -490,104 +502,99 @@
 					this.options.beforeSlideChange(this.$slides.eq(this.activeSlide));
 				}
 
-				//set to correct bullet
+				// Set to correct bullet
 				this.setActiveBullet();
 
-				//set previous slide z-index to one below what new activeSlide will be
+				// Set previous slide z-index to one below what new activeSlide will be
 				this.$slides
 					.eq(this.prevActiveSlide)
 					.removeClass('active');
 
-				//fade
-				if (this.options.animation === "fade") {
-					this.$slides
-						.eq(this.activeSlide)
-						.css({ "opacity" : 0 })
+				// Fade
+				if (this.options.animation === 'fade') {
+					this.$slides.eq(this.activeSlide)
+						.css({ 'opacity' : 0 })
 						.addClass('active')
-						.animate({ "opacity": 1 }, this.options.animationSpeed, this.resetAndUnlock);
+						.animate({ 'opacity': 1 }, this.options.animationSpeed, this.resetAndUnlock);
 				}
 
 				//horizontal-slide
-				if (this.options.animation === "horizontal-slide") {
-					if (slideDirection === "next") {
+				if (this.options.animation === 'horizontal-slide') {
+					if (slideDirection === 'next') {
 						this.$slides
 							.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": this.sliderWidth})
-							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
+							.css({ left: this.sliderWidth})
+							.animate({ left : 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
-					if (slideDirection === "prev") {
-						this.$slides
-							.eq(this.activeSlide)
+					if (slideDirection === 'prev') {
+						this.$slides.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": -this.sliderWidth})
-							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
-					}
-				}
-
-				//vertical-slide
-				if (this.options.animation === "vertical-slide") {
-					if (slideDirection === "prev") {
-						this.$slides
-							.eq(this.activeSlide)
-							.addClass('active')
-							.css({"top": this.sliderHeight})
-							.animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
-					}
-					if (slideDirection === "next") {
-						this.$slides
-							.eq(this.activeSlide)
-							.addClass('active')
-							.css({"top": -this.sliderHeight})
-							.animate({"top" : 0}, this.options.animationSpeed, this.resetAndUnlock);
+							.css({ left: -this.sliderWidth})
+							.animate({ left: 0}, this.options.animationSpeed, this.resetAndUnlock);
 					}
 				}
 
-				//horizontal-push
-				if (this.options.animation === "horizontal-push") {
-					if (slideDirection === "next") {
-						this.$slides
-							.eq(this.activeSlide)
+				// Vertical-slide
+				if (this.options.animation === 'vertical-slide') {
+					if (slideDirection === 'prev') {
+						this.$slides.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": this.sliderWidth})
-							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
-						this.$slides
-							.eq(this.prevActiveSlide)
-							.animate({"left" : -this.sliderWidth}, this.options.animationSpeed);
+							.css({ top: this.sliderHeight })
+							.animate({ top : 0 }, this.options.animationSpeed, this.resetAndUnlock);
 					}
-					if (slideDirection === "prev") {
-						this.$slides
-							.eq(this.activeSlide)
+
+					if (slideDirection === 'next') {
+						this.$slides.eq(this.activeSlide)
 							.addClass('active')
-							.css({"left": -this.sliderWidth})
-							.animate({"left" : 0}, this.options.animationSpeed, this.resetAndUnlock);
-						this.$slides
-							.eq(this.prevActiveSlide)
-							.animate({"left" : this.sliderWidth}, this.options.animationSpeed);
+							.css({ top: -this.sliderHeight })
+							.animate({ top: 0 }, this.options.animationSpeed, this.resetAndUnlock);
 					}
 				}
 
-				//vertical-push
-				if (this.options.animation === "vertical-push") {
-					if (slideDirection === "next") {
-						this.$slides
-							.eq(this.activeSlide)
+				// Horizontal-push
+				if (this.options.animation === 'horizontal-push') {
+					if (slideDirection === 'next') {
+						this.$slides.eq(this.activeSlide)
 							.addClass('active')
-							.css({top: -this.sliderHeight})
-							.animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
-						this.$slides
-							.eq(this.prevActiveSlide)
-							.animate({top : this.sliderHeight}, this.options.animationSpeed);
+							.css({ left: this.sliderWidth})
+							.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+
+						this.$slides.eq(this.prevActiveSlide)
+							.animate({ left: -this.sliderWidth }, this.options.animationSpeed);
 					}
-					if (slideDirection === "prev") {
-						this.$slides
-							.eq(this.activeSlide)
+
+					if (slideDirection === 'prev') {
+						this.$slides.eq(this.activeSlide)
+							.addClass('active')
+							.css({ left: -this.sliderWidth})
+							.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+
+						this.$slides.eq(this.prevActiveSlide)
+							.animate({ left: this.sliderWidth }, this.options.animationSpeed);
+					}
+				}
+
+				// Vertical-push
+				if (this.options.animation === 'vertical-push') {
+					if (slideDirection === 'next') {
+						this.$slides.eq(this.activeSlide)
+							.addClass('active')
+							.css({ top: -this.sliderHeight })
+							.animate({ top: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+
+						this.$slides.eq(this.prevActiveSlide)
+							.animate({ top: this.sliderHeight }, this.options.animationSpeed);
+					}
+
+					if (slideDirection === 'prev') {
+						this.$slides.eq(this.activeSlide)
 							.addClass('active')
 							.css({top: this.sliderHeight})
 							.animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
-						this.$slides
-							.eq(this.prevActiveSlide)
-							.animate({top : -this.sliderHeight}, this.options.animationSpeed);
+
+						this.$slides.eq(this.prevActiveSlide)
+							.animate({ top: -this.sliderHeight }, this.options.animationSpeed);
 					}
 				}
 

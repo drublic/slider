@@ -39,7 +39,8 @@
 	> a,
 	> div,
 	> li {
-		-webkit-transform: translate3d(0,0,0);
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
 
 		display: block;
 
@@ -99,14 +100,17 @@
 }
 
 .rotator {
+	-webkit-transform: translateZ(0);
+	        transform: translateZ(0);
+
+	position: absolute;
+	z-index: 3;
+	top: 0;
+	left: -20px;
 	display: block;
 	width: 40px;
 	height: 40px;
-	position: absolute;
-	top: 0;
-	left: -20px;
 	background: url(img/rotator-black.png) no-repeat;
-	z-index: 3;
 }
 
 .mask {
@@ -128,14 +132,14 @@
 	background: url(img/timer-black.png) repeat 0 0;
 }
 .pause {
+	position: absolute;
+	z-index: 4;
+	top: 0;
+	left: 0;
 	display: block;
 	width: 40px;
 	height: 40px;
-	position: absolute;
-	top: 0;
-	left: 0;
 	background: url(img/pause-black.png) no-repeat;
-	z-index: 4;
 	opacity: 0;
 
 	&.active {
