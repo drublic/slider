@@ -1,0 +1,19 @@
+{
+	"name": "jquery-slider",
+	"version": "0.2.1",
+	"main": [
+		"jquery.slider.js",
+		"jquery.slider.css"
+	],
+	"author": "Hans Christian Reinl",
+	"ignore": [
+		"download",
+		"node_modules",
+		"site",
+		".editorconfig",
+		".gitignore",
+		".jshintrc",
+		"Gruntfile.js",
+		"package.json"
+	]
+}
