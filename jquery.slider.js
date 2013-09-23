@@ -2,7 +2,7 @@
  * jQuery Content Slider
  *
  * @author Hans Christian Reinl - @drublic
- * @version 0.2.1
+ * @version 0.3.0
  */
 
 
