@@ -1,6 +1,6 @@
 {
-	"name": "jquery-slider",
-	"version": "0.2.1",
+	"name": "wrecking-slide",
+	"version": "0.3.0",
 	"main": [
 		"jquery.slider.js",
 		"jquery.slider.css"
