@@ -219,21 +219,11 @@
 	padding: 0;
 
 	li {
-		-webkit-border-radius: 5px;
-		        border-radius: 5px;
-
 		float: left;
 		margin: 0 3px;
 		cursor: pointer;
-		background-color: #999;
-		text-indent: -200px;
-		width: 10px;
-		height: 10px;
+		text-indent: -99em;
 		overflow: hidden;
-
-		&.active {
-			background-color: #222;
-		}
 
 		&.has-thumb {
 			background: none;
@@ -241,7 +231,21 @@
 			height: 75px;
 		}
 
-		&.active.has-thumb {
+		> a {
+			-webkit-border-radius: 5px;
+			        border-radius: 5px;
+
+			display: block;
+			width: 10px;
+			height: 10px;
+			background-color: #999;
+		}
+
+		&.active > a {
+			background-color: #222;
+		}
+
+		&.active.has-thumb > a {
 			border-top: 2px solid #000;
 		}
 	}
