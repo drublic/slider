@@ -24,7 +24,6 @@
 	position: relative;
 	max-width: 940px;
 	margin: 0 auto;
-	overflow: hidden;
 }
 
 .slider {
@@ -276,6 +275,7 @@
 .slider-carousel {
 	max-width: none;
 	width: auto;
+	overflow: hidden;
 
 	> img,
 	> a,

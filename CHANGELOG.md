@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Prevent hiding overflow for default sliders
 
 ### v0.4.0
 * Add carousel function with option `carousel`
