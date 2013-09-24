@@ -32,7 +32,8 @@
 			afterInit: $.noop,               // when slider initialisation is done
 			touchNavigation: true,           // Turn on or off navigation on slide
 			fluid: true,                     // true or ratio (ex: 4x3) to force an aspect ratio for content slides, only works from within a fluid layout
-			centerBullets: true              // center bullet nav with js, turn this off if you want to position the bullet nav manually
+			centerBullets: true,             // center bullet nav with js, turn this off if you want to position the bullet nav manually
+			carousel: false                  // Show prev and next slide
 		},
 
 		activeSlide: 0,
@@ -49,9 +50,9 @@
 		bulletHTML: '<ul class="slider-bullets"></ul>',
 
 		init: function (element, options) {
-			var $imageSlides,
-				imagesLoadedCount = 0,
-				self = this;
+			var $imageSlides;
+			var imagesLoadedCount = 0;
+			var self = this;
 
 			// Bind functions to correct context
 			this.clickTimer = $.proxy(this.clickTimer, this);
@@ -82,6 +83,10 @@
 				this.options.directionalNav = Boolean(this.options.directionalNav);
 			}
 
+			if (typeof this.options.carousel !== 'boolean') {
+				this.options.carousel = Boolean(this.options.carousel);
+			}
+
 			this.$element = $(element);
 			this.$wrapper = this.$element.wrap(this.wrapperHTML).parent();
 			this.$slides = this.$element.children('img, a, div, li');
@@ -98,31 +103,15 @@
 				this.$element[0].addEventListener('touchstart', this.onTouchStart, false);
 			}
 
+			// Initialize events
+			this.events.call(this);
 
-			// Events
+			// Make it a carousel
+			if (this.options.carousel) {
+				this.makeCarousel();
+			}
 
-			this.$element
-				.on('slider.next', function () {
-					self.shift('next');
-				})
-
-				.on('slider.prev', function () {
-					self.shift('prev');
-				})
-
-				.on('slider.goto', function (event, index) {
-					self.shift(index);
-				})
-
-				.on('slider.start', function () {
-					self.startClock();
-				})
-
-				.on('slider.stop', function () {
-					self.stopClock();
-				});
-
-
+			// Get all images
 			$imageSlides = this.$slides.filter('img');
 
 			if ($imageSlides.length === 0) {
@@ -135,6 +124,47 @@
 					}
 				});
 			}
+		},
+
+		/**
+		 * Events for the slider
+		 */
+		events: function () {
+			var _self = this;
+
+			this.$element
+				.on('slider.next', function () {
+					_self.shift('next');
+				})
+
+				.on('slider.prev', function () {
+					_self.shift('prev');
+				})
+
+				.on('slider.goto', function (event, index) {
+					_self.shift(index);
+				})
+
+				.on('slider.start', function () {
+					_self.startClock();
+				})
+
+				.on('slider.stop', function () {
+					_self.stopClock();
+				});
+		},
+
+		/**
+		 * Change the slider to a carousel
+		 */
+		makeCarousel: function () {
+
+			// Add a class for styling
+			this.$wrapper.addClass('slider-carousel');
+
+			// Add initial second slide
+			this.$slides.eq(1).addClass('slide-carousel-next');
+			this.$slides.last().addClass('slide-carousel-previous');
 		},
 
 		loaded: function () {
@@ -168,6 +198,10 @@
 			}
 		},
 
+		/**
+		 * Get current slide element
+		 * @return {jQuery Object}
+		 */
 		currentSlide: function () {
 			return this.$slides.eq(this.activeSlide);
 		},
@@ -175,8 +209,8 @@
 		setDimentionsFromLargestSlide: function () {
 
 			// Collect all slides and set slider size of largest image
-			var self = this,
-				$fluidPlaceholder;
+			var self = this;
+			var $fluidPlaceholder;
 
 			self.$element.add(self.$wrapper).width(this.$slides.first().outerWidth());
 			self.$element.add(self.$wrapper).height(this.$slides.first().height());
@@ -185,19 +219,21 @@
 			$fluidPlaceholder = this.$slides.first().clone();
 
 			this.$slides.each(function () {
-				var slide = $(this),
-						slideWidth = slide.width(),
-						slideHeight = slide.height();
+				var slide = $(this);
+				var slideWidth = slide.width();
+				var slideHeight = slide.height();
 
 				if (slideWidth > self.$element.width()) {
 					self.$element.add(self.$wrapper).width(slideWidth);
 					self.sliderWidth = self.$element.width();
 				}
+
 				if (slideHeight > self.$element.height()) {
 					self.$element.add(self.$wrapper).height(slideHeight);
 					self.sliderHeight = self.$element.height();
 					$fluidPlaceholder = $(this).clone();
 				}
+
 				self.numberSlides += 1;
 			});
 
@@ -207,8 +243,10 @@
 
 			self.$element.prepend($fluidPlaceholder);
 			$fluidPlaceholder.addClass('fluid-placeholder');
-			self.$element.add(self.$wrapper).css({ width: 'inherit' });
-			self.$element.add(self.$wrapper).css({ height: 'inherit' });
+			self.$element.add(self.$wrapper).css({
+				width: 'inherit',
+				height: 'inherit'
+			});
 
 			$(window).on('resize', function () {
 				self.sliderWidth = self.$element.width();
@@ -216,7 +254,9 @@
 			});
 		},
 
-		// Animation locking functions
+		/*
+		 * Animation locking functions
+		 */
 		lock: function () {
 			this.locked = true;
 		},
@@ -233,8 +273,10 @@
 			}
 		},
 
+		/*
+		 * Set initial front image
+		 */
 		setupFirstSlide: function () {
-			//Set initial front photo z-index and fades it in
 			this.$slides.first()
 				.addClass('active');
 		},
@@ -242,7 +284,7 @@
 		startClock: function () {
 			var self = this;
 
-			if(!this.options.timer) {
+			if (!this.options.timer) {
 				return false;
 			}
 
@@ -326,10 +368,10 @@
 		},
 
 		clickTimer: function () {
-			if(!this.timerRunning) {
-					this.startClock();
+			if (!this.timerRunning) {
+				this.startClock();
 			} else {
-					this.stopClock();
+				this.stopClock();
 			}
 		},
 
@@ -340,8 +382,8 @@
 		},
 
 		setCaption: function () {
-			var captionLocation = this.currentSlide().attr('data-caption'),
-					captionHTML;
+			var captionLocation = this.currentSlide().attr('data-caption');
+			var captionHTML;
 
 			if (!this.options.captions) {
 				return false;
@@ -450,6 +492,9 @@
 			}
 		},
 
+		/**
+		 * Reset the slider
+		 */
 		resetAndUnlock: function () {
 			this.$slides
 				.eq(this.prevActiveSlide)
@@ -458,20 +503,161 @@
 			this.options.afterSlideChange.call(this, this.$slides.eq(this.prevActiveSlide), this.$slides.eq(this.activeSlide));
 		},
 
+		/**
+		 * All functions for animations
+		 */
+		animations: {
+			fade: function () {
+				this.$slides.eq(this.activeSlide)
+					.css({ 'opacity' : 0 })
+					.addClass('active')
+					.animate({ 'opacity': 1 }, this.options.animationSpeed, this.resetAndUnlock);
+			},
+
+			horizontalSlide: function (direction) {
+				if (direction === 'next') {
+					this.$slides
+						.eq(this.activeSlide)
+						.addClass('active')
+						.css({ left: this.sliderWidth})
+						.animate({ left : 0 }, this.options.animationSpeed, this.resetAndUnlock);
+				}
+
+				if (direction === 'prev') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({ left: -this.sliderWidth})
+						.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+				}
+			},
+
+			verticalSlide: function (direction) {
+				if (direction === 'prev') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({ top: this.sliderHeight })
+						.animate({ top : 0 }, this.options.animationSpeed, this.resetAndUnlock);
+				}
+
+				if (direction === 'next') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({ top: -this.sliderHeight })
+						.animate({ top: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+				}
+			},
+
+			horizontalPush: function (direction) {
+				if (direction === 'next') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({ left: this.sliderWidth})
+						.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+
+					this.$slides.eq(this.prevActiveSlide)
+						.animate({ left: -this.sliderWidth }, this.options.animationSpeed);
+				}
+
+				if (direction === 'prev') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({ left: -this.sliderWidth})
+						.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+
+					this.$slides.eq(this.prevActiveSlide)
+						.animate({ left: this.sliderWidth }, this.options.animationSpeed);
+				}
+			},
+
+			verticalPush: function (direction) {
+				if (direction === 'next') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({ top: -this.sliderHeight })
+						.animate({ top: 0 }, this.options.animationSpeed, this.resetAndUnlock);
+
+					this.$slides.eq(this.prevActiveSlide)
+						.animate({ top: this.sliderHeight }, this.options.animationSpeed);
+				}
+
+				if (direction === 'prev') {
+					this.$slides.eq(this.activeSlide)
+						.addClass('active')
+						.css({top: this.sliderHeight})
+						.animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
+
+					this.$slides.eq(this.prevActiveSlide)
+						.animate({ top: -this.sliderHeight }, this.options.animationSpeed);
+				}
+			}
+		},
+
+
+		/**
+		 * Set the next slide for carousels
+		 */
+		setNextSlide: function () {
+			var nextSlideId = this.activeSlide + 1;
+
+			if (nextSlideId === this.$slides.last().index()) {
+				nextSlideId = 0;
+			}
+
+			this.$slides.filter('.slide-carousel-previous').removeClass('slide-carousel-previous');
+			this.$slides.filter('.slide-carousel-next').removeClass('slide-carousel-next');
+
+			this.$slides.eq(nextSlideId)
+				.removeAttr('style')
+				.addClass('slide-carousel-next');
+		},
+
+		/**
+		 * Set the previous slide for carousels
+		 */
+		setPreviousSlide: function () {
+			var previousSlideId = this.activeSlide - 1;
+
+			if (previousSlideId === -1) {
+				previousSlideId = this.$slides.last().index() - 1;
+			}
+
+			this.$slides.filter('.slide-carousel-next').removeClass('slide-carousel-next');
+			this.$slides.filter('.slide-carousel-previous').removeClass('slide-carousel-previous');
+
+			this.$slides.eq(previousSlideId)
+				.removeAttr('style')
+				.addClass('slide-carousel-previous');
+		},
+
+		/**
+		 * Set the last active slide
+		 */
+		setLastActive: function () {
+			this.$slides.filter('.slide-carousel-last-active').removeClass('slide-carousel-last-active');
+
+			// Add class from current element
+			this.$slides.eq(this.prevActiveSlide).addClass('slide-carousel-last-active');
+		},
+
+
+		/**
+		 * Shift direction
+		 * @param  {direction} direction next or prev
+		 */
 		shift: function (direction) {
 			var slideDirection = direction;
 
 			//remember previous activeSlide
 			this.prevActiveSlide = this.activeSlide;
 
-			//exit function if bullet clicked is same as the current image
-			if (this.prevActiveSlide === slideDirection) {
+			// Eject early if bullet clicked is same as the current image or there is only one slide
+			if (this.prevActiveSlide === slideDirection || this.$slides.length === 1) {
 				return false;
 			}
 
-			if (this.$slides.length === '1') {
-				return false;
-			}
+			// Remove class active
+			this.$slides.eq(this.prevActiveSlide).removeClass('active');
+
 
 			if (!this.locked) {
 				this.lock();
@@ -479,17 +665,20 @@
 				// Deduce the proper activeImage
 				if (direction === 'next') {
 					this.activeSlide += 1;
+
 					if (this.activeSlide === this.numberSlides) {
-							this.activeSlide = 0;
+						this.activeSlide = 0;
 					}
 
 				} else if (direction === 'prev') {
 					this.activeSlide -= 1;
+
 					if (this.activeSlide < 0) {
 						this.activeSlide = this.numberSlides - 1;
 					}
 				} else {
 					this.activeSlide = direction;
+
 					if (this.prevActiveSlide < this.activeSlide) {
 						slideDirection = 'next';
 					} else if (this.prevActiveSlide > this.activeSlide) {
@@ -499,117 +688,61 @@
 
 				// Do stuff before the slide changes
 				if (this.options.beforeSlideChange) {
-					this.options.beforeSlideChange(this.$slides.eq(this.activeSlide));
+					this.options.beforeSlideChange.call(this, this.$slides.eq(this.activeSlide));
 				}
 
 				// Set to correct bullet
 				this.setActiveBullet();
 
-				// Set previous slide z-index to one below what new activeSlide will be
-				this.$slides
-					.eq(this.prevActiveSlide)
-					.removeClass('active');
-
 				// Fade
 				if (this.options.animation === 'fade') {
-					this.$slides.eq(this.activeSlide)
-						.css({ 'opacity' : 0 })
-						.addClass('active')
-						.animate({ 'opacity': 1 }, this.options.animationSpeed, this.resetAndUnlock);
-				}
+					this.animations.fade.call(this);
 
-				//horizontal-slide
-				if (this.options.animation === 'horizontal-slide') {
-					if (slideDirection === 'next') {
-						this.$slides
-							.eq(this.activeSlide)
-							.addClass('active')
-							.css({ left: this.sliderWidth})
-							.animate({ left : 0}, this.options.animationSpeed, this.resetAndUnlock);
-					}
-					if (slideDirection === 'prev') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({ left: -this.sliderWidth})
-							.animate({ left: 0}, this.options.animationSpeed, this.resetAndUnlock);
-					}
-				}
+				// Horizontal-slide
+				} else if (this.options.animation === 'horizontal-slide') {
+					this.animations.horizontalSlide.call(this, slideDirection);
 
 				// Vertical-slide
-				if (this.options.animation === 'vertical-slide') {
-					if (slideDirection === 'prev') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({ top: this.sliderHeight })
-							.animate({ top : 0 }, this.options.animationSpeed, this.resetAndUnlock);
-					}
-
-					if (slideDirection === 'next') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({ top: -this.sliderHeight })
-							.animate({ top: 0 }, this.options.animationSpeed, this.resetAndUnlock);
-					}
-				}
+				} else if (this.options.animation === 'vertical-slide') {
+					this.animations.verticalSlide.call(this, slideDirection);
 
 				// Horizontal-push
-				if (this.options.animation === 'horizontal-push') {
-					if (slideDirection === 'next') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({ left: this.sliderWidth})
-							.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
-
-						this.$slides.eq(this.prevActiveSlide)
-							.animate({ left: -this.sliderWidth }, this.options.animationSpeed);
-					}
-
-					if (slideDirection === 'prev') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({ left: -this.sliderWidth})
-							.animate({ left: 0 }, this.options.animationSpeed, this.resetAndUnlock);
-
-						this.$slides.eq(this.prevActiveSlide)
-							.animate({ left: this.sliderWidth }, this.options.animationSpeed);
-					}
-				}
+				} else if (this.options.animation === 'horizontal-push') {
+					this.animations.horizontalPush.call(this, slideDirection);
 
 				// Vertical-push
-				if (this.options.animation === 'vertical-push') {
+				} else if (this.options.animation === 'vertical-push') {
+					this.animations.verticalPush.call(this, slideDirection);
+				}
+
+
+				if (this.options.carousel) {
+
 					if (slideDirection === 'next') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({ top: -this.sliderHeight })
-							.animate({ top: 0 }, this.options.animationSpeed, this.resetAndUnlock);
-
-						this.$slides.eq(this.prevActiveSlide)
-							.animate({ top: this.sliderHeight }, this.options.animationSpeed);
+						this.setNextSlide();
+					} else if (slideDirection === 'prev') {
+						this.setPreviousSlide();
 					}
 
-					if (slideDirection === 'prev') {
-						this.$slides.eq(this.activeSlide)
-							.addClass('active')
-							.css({top: this.sliderHeight})
-							.animate({top : 0}, this.options.animationSpeed, this.resetAndUnlock);
-
-						this.$slides.eq(this.prevActiveSlide)
-							.animate({ top: -this.sliderHeight }, this.options.animationSpeed);
-					}
+					this.setLastActive();
 				}
 
 				this.setCaption();
 			}
 		},
 
-		/**
-		 * Touch events
-		 */
 
+		/**
+		 * Get index of current slide
+		 * @return {int} current slide
+		 */
 		getCurrentSlide: function () {
 			return $('.slider-bullets > li').index('.active');
 		},
 
+		/**
+		 * Touch events
+		 */
 		resetSlider: function () {
 			this.$element[0].removeEventListener('touchmove', this.onTouchMove, false);
 			this.$element[0].removeEventListener('touchend', this.onTouchEnd, false);
@@ -767,7 +900,7 @@
 	}
 
 	if (!window.requestAnimationFrame) {
-		window.requestAnimationFrame = function(callback, element) {
+		window.requestAnimationFrame = function (callback, element) {
 			element = undefined;
 
 			var currTime = new Date().getTime();

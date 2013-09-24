@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Add carousel function with option `carousel`
 * Use characters instead of images for navigation
 * Use links for styling of bullets
 

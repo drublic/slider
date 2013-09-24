@@ -22,13 +22,13 @@
 // Container
 .slider-wrapper {
 	position: relative;
-	width: 100% !important;
-	height: 1px;
+	max-width: 940px;
+	margin: 0 auto;
+	overflow: hidden;
 }
 
 .slider {
-	@extend .slider-wrapper;
-
+	position: relative;
 	overflow: hidden;
 
 	&.with-bullets {
@@ -266,5 +266,39 @@
 		&.active.has-thumb > a {
 			border-top: 2px solid #000;
 		}
+	}
+}
+
+
+/*
+ * Carousel
+ */
+.slider-carousel {
+	max-width: none;
+	width: auto;
+
+	> img,
+	> a,
+	> div,
+	> li {
+		left: 0;
+	}
+
+	> .slider {
+		max-width: 940px;
+		margin: 0 auto;
+		overflow: visible;
+	}
+
+	.slide-carousel-next {
+		left: 100% !important;
+	}
+
+	.slide-carousel-previous {
+		left: -100% !important;
+	}
+
+	.slide-carousel-last-active {
+		z-index: 10;
 	}
 }

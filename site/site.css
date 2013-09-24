@@ -3,10 +3,9 @@
  */
 
 html {
-	max-width: 940px;
 	padding: 1em;
-	margin: 0 auto;
 	color: #222;
+	text-align: center;
 }
 
 .content {
@@ -19,6 +18,11 @@ h1 {
 	text-transform: uppercase;
 	margin-top: 15%;
 	line-height: 1.4em;
+}
+
+h1 {
+	font-size: 2em;
+	margin-top: 20px;
 }
 
 h3 {
