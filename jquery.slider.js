@@ -476,12 +476,9 @@
 			$li.data('index', index);
 
 			$li.click(function (event) {
-				if(!event.isDefaultPrevented()) {
-					event.preventDefault();
-				}
-
-                self.stopClock();
-                self.$element.trigger('slider.goto', [$li.data('index')]);
+				event.preventDefault();
+				self.stopClock();
+				self.$element.trigger('slider.goto', [$li.data('index')]);
 			});
 		},
 
