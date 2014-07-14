@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Fix doubleclick bug: element is hidden on double click
 * Prevent hiding overflow for default sliders
 
 ### v0.4.0

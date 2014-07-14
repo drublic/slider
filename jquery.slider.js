@@ -306,8 +306,8 @@
 			this.$rotator.css({
 				'-webkit-transform': degreeCSS,
 				   '-moz-transform': degreeCSS,
-				     '-o-transform': degreeCSS,
-				        'transform': degreeCSS
+					 '-o-transform': degreeCSS,
+						'transform': degreeCSS
 			});
 
 			if (this.degrees > 180) {
@@ -646,22 +646,21 @@
 		 * @param  {direction} direction next or prev
 		 */
 		shift: function (direction) {
-			var slideDirection = direction;
-
-			//remember previous activeSlide
-			this.prevActiveSlide = this.activeSlide;
-
-			// Eject early if bullet clicked is same as the current image or there is only one slide
-			if (this.prevActiveSlide === slideDirection || this.$slides.length === 1) {
-				return false;
-			}
-
-			// Remove class active
-			this.$slides.eq(this.prevActiveSlide).removeClass('active');
-
-
 			if (!this.locked) {
 				this.lock();
+
+				var slideDirection = direction;
+
+				//remember previous activeSlide
+				this.prevActiveSlide = this.activeSlide;
+
+				// Eject early if bullet clicked is same as the current image or there is only one slide
+				if (this.prevActiveSlide === slideDirection || this.$slides.length === 1) {
+					return false;
+				}
+
+				// Remove class active
+				this.$slides.eq(this.prevActiveSlide).removeClass('active');
 
 				// Deduce the proper activeImage
 				if (direction === 'next') {
