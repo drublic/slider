@@ -656,6 +656,7 @@
 
 				// Eject early if bullet clicked is same as the current image or there is only one slide
 				if (this.prevActiveSlide === slideDirection || this.$slides.length === 1) {
+                    this.unlock();
 					return false;
 				}
 
