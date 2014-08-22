@@ -1,4 +1,4 @@
-# Wrecking Slide v0.4.0 – A jQuery Slider
+# Wrecking Slide v0.5.0 – A jQuery Slider
 
 This is a jQuery slider.
 
