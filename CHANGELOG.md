@@ -1,6 +1,8 @@
 # Changelog
 
 ### HEAD
+
+### v0.5.0
 * Unlock slider even if the clicked bullet is the same as the current image/slide
 * Fix doubleclick bug: element is hidden on double click
 * Prevent hiding overflow for default sliders
